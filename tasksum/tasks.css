@@ -1,0 +1,46 @@
+.status-open-bg {
+	background-color: #3abf2e;
+}
+.status-overdue-bg {
+	background-color: #ff003a;
+}
+.status-duetoday-bg {
+	background-color: #ffe205;
+}
+.status-finished-bg {
+	background-color: #999;
+}
+
+.task-item {
+	padding: 7px 9px;
+	cursor: pointer;
+}
+
+.task-item .task {
+	display: flex;
+	align-items:center;
+}
+
+.task-item .task-desc {
+	color: #999;
+	font-size: 14px;
+	padding-left: 35px;
+}
+
+.task-item:hover {
+	background-color: #f5f5f5;
+}
+
+.task-item .task-progress {
+	min-width: 26px;
+	min-height:26px;
+	border-radius:50%;
+	border: 1px solid #999;
+	color: #999;
+	text-align: center;
+}
+
+.task-item .task-progress > div {
+	font-size: 12px;
+	margin-top: 6px;
+}
