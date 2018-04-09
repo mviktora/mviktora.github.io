@@ -6,7 +6,7 @@
 	<link href="styles.css" rel="stylesheet" type="text/css" media="all">
 	<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
 
-	<script src="images.js"></script>
+	<script src="svg.js"></script>
 	<script src="main.js"></script>
 	<script src="data.js"></script>
 
@@ -14,7 +14,7 @@
 	<meta name = "viewport" content = "user-scalable=no, width=device-width">
 	<meta name="apple-mobile-web-app-title" content="SP Navigation">
 	<meta name="apple-mobile-web-app-status-bar-style" content="default">
-	<link rel="apple-touch-icon" href="appicon.png">
+	<link rel="apple-touch-icon" href="img/appicon.png">
 
 	<script>
 	$(document).ready(main.init);
@@ -32,11 +32,13 @@
 		<div id="heading"></div>
 		<div id="content"></div>
 		<div id="bottom-bar">
-			<div id="back-button" class="bottom-button"></div>
-			<div style="flex-grow:1"></div>
-			<div id="nav-button" class="bottom-button"></div>
-			<div style="flex-grow:1"></div>
-			<div id="nav-more-button" class="bottom-button"></div>
+			<div id="main-navigation">
+				<div id="back-button" class="bottom-button"></div>
+				<div style="flex-grow:1"></div>
+				<div id="nav-button" class="bottom-button"></div>
+				<div style="flex-grow:1"></div>
+				<div id="nav-more-button" class="bottom-button"></div>
+			</div>
 		</div>
 	</div>
 
@@ -49,23 +51,12 @@
 			<div class="section-label">Organization</div>
 			<div id="nav-menu-org" class="nav-menu nav-menu-org">
 				<div class="title">
-					<img class="logo" src="logo.png">
+					<img class="logo" src="img/logo.png">
 					<div class="text">Samepage Labs</div>
 					<div class="settings"></div>
 				</div>
 				<div class="user-list" id="org-users"></div>
 				<div id="org-items" class="menu-items"></div>
-			</div>
-
-			<div class="section-label">Current team</div>
-			<div id="nav-menu-team" class="nav-menu nav-menu-team">
-				<div class="title">
-					<div class="team-avatar">C</div>
-					<div class="text">Customer Feedback team</div>
-					<div class="settings"></div>
-				</div>
-				<div class="user-list" id="team-members"></div>
-				<div id="team-items" class="menu-items"></div>
 			</div>
 
 		</div>
@@ -99,7 +90,6 @@
 		<div class="context-menu-item">Action 3</div>
 	</div>
 </div>
-
 
 </body>
 

@@ -1,0 +1,106 @@
+<html>
+
+<head>
+
+<meta charset="UTF-8">
+	<link href="styles.css" rel="stylesheet" type="text/css" media="all">
+	<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+
+	<script src="svg.js"></script>
+	<script src="main.js"></script>
+	<script src="data.js"></script>
+
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name = "viewport" content = "user-scalable=no, width=device-width">
+	<meta name="apple-mobile-web-app-title" content="SP Navigation">
+	<meta name="apple-mobile-web-app-status-bar-style" content="default">
+	<link rel="apple-touch-icon" href="img/appicon.png">
+
+	<script>
+	$(document).ready(main.init);
+	</script>
+
+	<title>Nav</title>
+
+</head>
+
+<body>
+
+<div id="app-frame">
+
+	<div id="view">
+		<div id="heading"></div>
+		<div id="content"></div>
+		<div id="bottom-bar">
+			<div id="back-button" class="bottom-button"></div>
+			<div style="flex-grow:1"></div>
+			<div id="nav-button" class="bottom-button"></div>
+			<div style="flex-grow:1"></div>
+			<div id="nav-more-button" class="bottom-button"></div>
+		</div>
+	</div>
+
+	<div id="overlay">
+
+		<div id="main-section">
+
+			<div id="org-selector" style="height: 360px"></div>
+
+			<div class="section-label">Organization</div>
+			<div id="nav-menu-org" class="nav-menu nav-menu-org">
+				<div class="title">
+					<img class="logo" src="img/logo.png">
+					<div class="text">Samepage Labs</div>
+					<div class="settings"></div>
+				</div>
+				<div class="user-list" id="org-users"></div>
+				<div id="org-items" class="menu-items"></div>
+			</div>
+
+			<div class="section-label">Current team</div>
+			<div id="nav-menu-team" class="nav-menu nav-menu-team">
+				<div class="title">
+					<div class="team-avatar">C</div>
+					<div class="text">Customer Feedback team</div>
+					<div class="settings"></div>
+				</div>
+				<div class="user-list" id="team-members"></div>
+				<div id="team-items" class="menu-items"></div>
+			</div>
+
+		</div>
+
+		<div class="section-label">Pinned</div>
+		<div id="pinned">
+			<div id="fav-users" style=""></div>
+			<div id="pinned-pages">
+				<div class="pinned-page">Page 1</div>
+				<div class="pinned-page">Page 2</div>
+				<div class="pinned-page">Page 3</div>
+				<div class="pinned-page">Page 4</div>
+				<div class="pinned-page">Page 5</div>
+				<div class="pinned-page">Page 6</div>
+				<div class="pinned-page">Page 7</div>
+				<div class="pinned-page">Page 8</div>
+			</div>
+		</div>
+
+		<div style="height: 50px;"></div>
+		<div id="horizvert" style="padding: 20px;color:white;">Horizontal / Vertical switch</div>
+
+	</div>
+
+</div>
+
+<div id="context-menu">
+	<div class="context-menu-items">
+		<div class="context-menu-item">Action 1</div>
+		<div class="context-menu-item">Action 2</div>
+		<div class="context-menu-item">Action 3</div>
+	</div>
+</div>
+
+
+</body>
+
+</html>

@@ -1,0 +1,54 @@
+<html>
+<head>
+	<link href="styles.css" rel="stylesheet" type="text/css" media="all">
+	<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+
+</head>
+
+<body>
+
+<div id="view">
+	<div id="content">
+		<div>a</div>
+	</div>
+	<div id="menu">Menu</div>
+</div>
+
+<script>// Hide Header on on scroll down
+var didScroll;
+var lastScrollTop = 0;
+var delta = 5;
+
+$('#content').scroll(function(event){
+	didScroll = true;
+});
+
+setInterval(function() {
+    if (didScroll) {
+        hasScrolled();
+        didScroll = false;
+    }
+}, 250);
+
+function hasScrolled() {
+    var st = $('#content').scrollTop();
+
+    // if(Math.abs(lastScrollTop - st) <= delta) {
+    //     return;
+		// }
+
+    if (st > lastScrollTop){
+        $('#menu').removeClass('show');
+				console.log('hide')
+    } else {
+			console.log('show')
+        $('#menu').addClass('show');
+    }
+
+    lastScrollTop = st;
+}
+</script>
+
+</body>
+
+</html>

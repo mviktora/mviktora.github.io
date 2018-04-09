@@ -29,7 +29,7 @@ var main = (function () {
 		addSettings('team');
 
 		$('#nav-more-button').html(images.more);
-		$('#nav-button').html('@');
+		$('#nav-button').html(images.navbutton);
 		$('#back-button').html(images.back);
 
 		initImages('org', orgImages);
@@ -90,6 +90,7 @@ var main = (function () {
 
 		$('#horizvert').on('click', function() {
 			$('#app-frame').toggleClass('vertical');
+			setScrollPos();
 		});
 
 		navigateTo('team', 'Page');
@@ -178,7 +179,7 @@ var main = (function () {
 			<div class="heading-team">
 				<div style="display: inline-block">
 					<div class="team-name">
-						<img src="logo.png" class="tiny-logo">
+						<img src="img/logo.png" class="tiny-logo">
 						<div>${orgName}</div>
 					</div>
 				</div>
