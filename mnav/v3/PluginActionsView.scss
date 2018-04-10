@@ -1,0 +1,102 @@
+.plugin-actions {
+	$blue: #00adef !default;
+	$red: #ed1941 !default;
+	@include k-border-radius(4px);
+	@include k-transition(background-color: 0.2s);
+	padding: 0 1px;
+	@include displayFlex();
+	opacity: 0.7;
+
+	&:hover {
+		opacity: 1;
+	}
+
+	.action-button, .message-indicator {
+		visibility: hidden;
+		cursor: pointer;
+		width: 22px;
+		height: 20px;
+		padding-top: 2px;
+	}
+
+	.action-button {
+		padding-right: 1px;
+		border-right: 1px solid #ddd;
+		text-align: center;
+		.svg-more {
+			display: inline-block;
+			.svg-more-icon {
+				fill: #999;
+			}
+		}
+		&:hover {
+			.svg-more {
+				.svg-more-icon {
+					fill: #62bc46;
+				}
+			}
+		}
+	}
+
+	&.action-button-hl .action-button {
+		path, circle {
+			fill: #555 !important;
+		}
+	}
+
+	.message-indicator {
+		padding-left: 1px;
+		.svg-plugins-comment {
+			width: 22px;
+			height: 20px;
+			margin-left: 3px;
+		}
+		.svg-fill {
+			fill: #999;
+		}
+		&:hover {
+			.svg-fill {
+				fill: #62bc46;
+			}
+		}
+		&.read {
+			visibility: visible;
+			.svg-fill {
+				fill: $blue;
+			}
+		}
+		&.unread {
+			visibility: visible;
+			.svg-fill {
+				fill: $red;
+			}
+		}
+	}
+
+	&.comments-enforced {
+		.message-indicator {
+			visibility: visible;
+		}
+	}
+
+	&.hover {
+		background-color: #fff;
+		@include k-single-box-shadow(transparentize(#000, 0.65), 0, 0, 3px, 0, false);
+		.message-indicator {
+			visibility: visible;
+		}
+	}
+
+	&.history {
+		.message-indicator {
+			display: none;
+		}
+	}
+
+}
+
+@media print {
+	.plugin-actions {
+		display: none;
+	}
+}
