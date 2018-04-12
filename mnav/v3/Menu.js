@@ -12,20 +12,20 @@ mini.define('Menu', {
 			top: 0;
 			height: 100%;
 			right: 0;
-			background-color: rgba(0,0,0,.3);
+			background-color: rgba(0,0,0,.4);
+			background: #f0f0f0;
 			transition: top .2s;
 			display: none;
 		}
 
 		.context-menu .context-menu-items {
 			position: absolute;
-			bottom: 120px;
-			left: 0;
-			right: 0;
+			bottom: 100px;
+			xleft: 10px;
+			xright: 10px;
 		}
 
 		.context-menu .context-menu-item {
-			margin: 0 13px;
 			background: #fff;
 			padding: 12px 20px;
 			font-size: 18px;
@@ -37,12 +37,12 @@ mini.define('Menu', {
 			display: block;
 		}
 
-		.context-menu .context-menu-item:first-child {
+		.xcontext-menu .top-corners {
 			border-top-left-radius: 13px;
 			border-top-right-radius: 13px;
 		}
 
-		.context-menu .context-menu-item:last-child {
+		.xcontext-menu .bottom-corners {
 			border-bottom-left-radius: 13px;
 			border-bottom-right-radius: 13px;
 			border: none;
@@ -51,6 +51,10 @@ mini.define('Menu', {
 		.context-menu .context-submenu {
 			white-space: nowrap;
 			overflow: auto;
+		}
+
+		.context-menu .context-menu-spacer {
+			min-height: 30px;
 		}
 	`,
 
@@ -66,43 +70,81 @@ mini.define('Menu', {
 		<div class="context-menu-item context-submenu"></div>
 	`,
 
+	spacerTpl:`
+		<div class="context-menu-spacer"></div>
+	`,
+
 	itemTpl: function(item) {
 		return `
 			<div class="context-menu-item">${item ? item.name: ''}</div>
 		`;
 	},
 
-	init: function(config) {
+	_getTpl: function(tpl, item) {
+		if (typeof tpl === 'function') {
+			return tpl(item);
+		}
+		else {
+			return tpl;
+		}
+	},
 
+	init: function(config) {
 		this.el = mini.createElement(this.tpl, this, document.body);
 
 		config.items = config.items || [];
 
-		config.items.forEach(function(item) {
+		config.items.forEach(function(item, index) {
 			var
-				itemEl,
-				ui = {};
+				itemEl, subitemEl;
+
+			if (item.type === 'spacer') {
+				mini.createElement(this.spacerTpl, null, this.itemsEl);
+				return;
+			}
+
+			if (item.tpl) {
+				itemEl = mini.createElement(this._getTpl(item.tpl, item), null, this.itemsEl);
+			}
+			else {
+				if (item.items) {
+					itemEl = mini.createElement(this.submenuTpl, null, this.itemsEl);
+				}
+				else {
+					itemEl = mini.createElement(this._getTpl(this.itemTpl, item), null, this.itemsEl);
+				}
+				if (item.cls) {
+					mini.addClass(itemEl, item.cls);
+				}
+			}
 
 			if (item.id) {
-				itemEl = mini.createElement(this.itemTpl(item), ui, this.itemsEl);
 				this.addListener(itemEl, 'click', function(event) {
 					event.preventDefault();
 					this.hide();
 					this.fireEvent('select', {item: item});
 				}, this);
 			}
+			if (item.items) {
+				item.items.forEach(function(subitem) {
+					subitemEl = mini.createElement(item.itemTpl(subitem, item.itemCls), {}, itemEl);
+					if (subitem.id) {
+						this.addListener(subitemEl, 'click', function(event) {
+							event.preventDefault();
+							this.hide();
+							this.fireEvent('select', {item: subitem});
+						}, this);
+					}
 
-			if (item.tpl) {
-				itemEl = mini.createElement(this.itemTpl(), ui, this.itemsEl);
-				mini.createElement(item.tpl, {}, itemEl);
+				}.bind(this));
 			}
 
-			if (item.items) {
-				itemEl = mini.createElement(this.submenuTpl, {}, this.itemsEl);
-				mini.addClass(itemEl, item.cls);
-				item.items.forEach(function(subitem) {
-					mini.createElement(item.itemTpl(subitem, item.itemCls), {}, itemEl);
-				}.bind(this));
+			if (index === 0 || (index > 0 && config.items[index - 1].type === 'spacer')) {
+				mini.addClass(itemEl, 'top-corners');
+			}
+
+			if (index === config.items.length - 1 || (index < config.items.length - 1 && config.items[index + 1].type === 'spacer')) {
+				mini.addClass(itemEl, 'bottom-corners');
 			}
 
 		}.bind(this));

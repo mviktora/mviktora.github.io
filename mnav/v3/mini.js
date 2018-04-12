@@ -126,7 +126,7 @@ var mini = (function () {
 		el.classList.remove(cls);
 	}
 
-	function addListener(obj, eventName, callback, scope) {
+	function addListenerMain(obj, eventName, callback, scope) {
 		if (!(obj instanceof Element)) {
 			obj = obj._eventHelperEl;
 		}
@@ -142,6 +142,22 @@ var mini = (function () {
 			}
 			callback.call(scope, event);
 		});
+	}
+
+	function addListener(obj, eventName, callback, scope) {
+		var
+			events, key;
+		if (typeof eventName === 'string') {
+			addListenerMain(obj, eventName, callback, scope);
+		}
+		else {
+			events = eventName;
+			for (key in events) {
+				if (events.hasOwnProperty(key) && key !== 'scope') {
+					addListenerMain(obj, key, eventName[key], events.scope);
+				}
+			}
+		}
 	}
 
 	function css(el, styles) {

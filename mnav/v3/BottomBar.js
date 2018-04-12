@@ -2,7 +2,7 @@
 
 mini.define('BottomBar', {
 
-	events: ['select'],
+	events: ['backButton', 'navButton', 'moreButton'],
 
 	css: `
 		.bottom-bar {
@@ -24,7 +24,6 @@ mini.define('BottomBar', {
 
 		.bottom-bar .team-buttom {
 			border-radius: 7px;
-			background: #ddd;
 			display: inline-block;
 			padding: 5px 13px;
 		}
@@ -33,15 +32,19 @@ mini.define('BottomBar', {
 
 		}
 
+		.bottom-bar .back-button.disabled #back-icon {
+			fill: #ddd;
+		}
+
 	`,
 
 	tpl:
 		`<div class="bottom-bar">
-			<div ui="orgButtonEl" class="bar-button">${images.navbutton}</div>
+			<div ui="backButtonEl" class="bar-button back-button">${images.back}</div>
 			<div class="center">
-				<div ui="teamButtonEl" class="team-buttom"></div>
+				<div ui="navButtonEl" class="team-buttom">${images.logo}</div>
 			</div>
-			<div class="moreButtonEl" class="bar-button">${images.more}</div>
+			<div ui="moreButtonEl" class="bar-button">${images.more}</div>
 		</div>
 	`,
 
@@ -52,23 +55,35 @@ mini.define('BottomBar', {
 	init: function() {
 		this.el = mini.createElement(this.tpl, this);
 
-		this.addListener(this.teamButtonEl, 'touchend', function(event) {
-			this.fireEvent('teamButton', {});
+		this.addListener(this.backButtonEl, 'touchend', function(event) {
+			this.fireEvent('backButton', {});
 			event.preventDefault();
 		}, this);
 
-		this.addListener(this.orgButtonEl, 'touchend', function(event) {
-			this.fireEvent('orgButton', {});
+		this.addListener(this.navButtonEl, 'touchend', function(event) {
+			this.fireEvent('navButton', {});
 			event.preventDefault();
 		}, this);
+
+		this.addListener(this.moreButtonEl, 'touchend', function(event) {
+			this.fireEvent('moreButton', {});
+			event.preventDefault();
+		}, this);
+
+	},
+
+	enableBackButton: function(enable) {
+		if (enable) {
+			mini.addClass(this.backButtonEl, 'disabled');
+		}
+		else {
+			mini.removeClass(this.backButtonEl, 'disabled');
+		}
 	},
 
 	getEl: function() {
 		return this.el;
-	},
-
-	selectItem: function(item) {
-		this.teamButtonEl.innerHTML = item.name;
 	}
+
 
 });

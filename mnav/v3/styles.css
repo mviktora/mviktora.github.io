@@ -17,65 +17,11 @@ body, div {
 	background: #f7f7f7;
 	-webkit-user-select: none;
 	overflow: auto;
-		-webkit-overflow-scrolling: touch;
+	-webkit-overflow-scrolling: touch;
 }
 
 #app-frame.show-menu #content, #app-frame.show-menu #heading {
 	filter: blur(6px);
-}
-
-
-
-
-
-.nav-menu {
-	margin: 0 13px;
-	background: #fff;
-	border-radius: 3px;
-	color: #555;
-	padding-top: 5px;
-	overflow-x: hidden;
-}
-
-.menu-items {
-	display: flex;
-	padding: 0 13px;
-	background-color: #fff;
-}
-
-.menu-items > div {
-	margin-right: 13px;
-	padding: 2px 0px;
-	flex-grow: 1;
-	text-align: center;
-}
-
-.menu-items .label {
-	font-size: 14px;
-	padding-bottom: 3px;
-}
-
-.user-list {
-	padding: 13px 18px;
-	border-bottom: 1px solid #f0f0f0;
-	overflow: auto;
-	white-space: nowrap;
-	-webkit-overflow-scrolling: touch;
-}
-
-.title {
-	padding: 0px 13px;
-	height: 42px;
-	color: #000;
-	font-weight: bold;
-	overflow: hidden;
-	display: flex;
-	align-items: center;
-	border-bottom: 1px solid #f0f0f0;
-}
-
-.title .text {
-	flex-grow: 1;
 }
 
 
@@ -106,17 +52,17 @@ body, div {
 	stroke: none;
 }
 
-.menu-item-icon {
-	height: 32px;
-	padding-top: 7px;
+#more-icon circle, #back-icon {
+	fill: #777;
 }
 
-.logo {
-	display: inline-block;
-	border-radius: 50%;
-	width: 26px;
-	border: 1px solid #eee;
-	margin: 0 4px;
+#tasks-fill {
+	fill: none;
+}
+
+#tasks-border, #check, #inbox-icon, #calendar-border, #chat-border, #dots {
+	fill: #999;
+	stroke: none;
 }
 
 .team-avatar {
@@ -142,26 +88,4 @@ body, div {
 .tiny-logo {
 	width: 22px;
 	border-radius: 50%;
-}
-
-#more-icon circle, #back-icon {
-	fill: #777;
-}
-
-#back-button.disabled #back-icon {
-	fill: #ddd;
-}
-
-
-#nav-menu-team {
-	position: absolute;
-	left: 0;
-	right: 0;
-	bottom: -100px;
-	background-color: #f5f5f5;
-	transition: bottom .4s;
-}
-
-#nav-menu-team .menu-items {
-	background-color: #f5f5f5;
 }

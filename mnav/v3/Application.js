@@ -5,7 +5,10 @@ mini.define('Application', {
 	orgImages: ['Tasks', 'Calendar', 'Inbox', 'Teams', 'Search', 'Settings'],
 	teamImages: ['Pages', 'Chat', 'Tasks', 'Calendar', 'Files', 'Page', 'Settings'],
 
-	teamUserNames: ['Martin', 'Scott', 'Jan Je', 'Markéta', 'Jiří Praus', 'Martin Hošna', 'Pořádek', 'Tracy', 'Matt', 'Nohavec', 'Zdeněk'],
+	orgUserNames: ['Martin', 'Scott', 'Jan Je', 'Markéta', 'Jiří Praus',
+		'Martin Hošna', 'Pořádek', 'Tracy', 'Matt', 'Nohavec', 'Zdeněk'
+	],
+	teamUserNames: ['Martin', 'Scott', 'Jiří Praus', 'Martin Hošna', 'Tracy', 'Matt'],
 
 	css: `
 		.view {
@@ -13,7 +16,7 @@ mini.define('Application', {
 			overflow: hidden;
 		}
 
-		.view > .heading {
+		.view > .heading-wrapper {
 			position: absolute;
 			left: 0;
 			top: 0;
@@ -24,7 +27,7 @@ mini.define('Application', {
 			border-bottom: 1px solid #eee;
 		}
 
-		.view > .heading .heading-team .team-name {
+		.view .heading .title {
 			margin-top: 4px;
 			height: 22px;
 			line-height: 22px;
@@ -32,16 +35,11 @@ mini.define('Application', {
 			align-items: center;
 		}
 
-		.view > .heading .heading-team .team-item {
+		.view .heading .sub-title {
 			font-weight: bold;
 			height: 25px;
 			line-height: 25px;
 			font-size: 16px;
-		}
-
-		.view > .heading .heading-org {
-			font-size: 20px;
-			line-height: 52px;
 		}
 
 		.view > .content {
@@ -63,7 +61,7 @@ mini.define('Application', {
 			display: block !important;
 		}
 
-		.view > #bottom-bar {
+		.view > .bottom-bar-wrapper {
 			position: absolute;
 			bottom: 0;
 			left: 0;
@@ -75,7 +73,10 @@ mini.define('Application', {
 		.team-menu-users {
 			padding: 10px;
 			background: #fff;
+			white-space: nowrap;
+			overflow: auto;
 			-webkit-overflow-scrolling: touch;
+			border-bottom: 1px solid #f0f0f0;
 		}
 
 		.user-avatar {
@@ -89,42 +90,52 @@ mini.define('Application', {
 
 		.team-menu-heading {
 			font-weight: bold;
+			background: #fff;
 			color: #444;
 			font-size: 16px;
-			padding: 2px 2px;
+			padding: 13px 13px;
+			border-bottom: 1px solid #f0f0f0;
+		}
+
+		.menu-horiz-items {
+
+			background: #fff;
+			padding: 5px 13px;
+		}
+
+		.menu-horiz-item {
+			display: inline-block;
+			padding: 3px 7px;
+			width: 27%;
+			text-align: center;
+		}
+
+		.menu-horiz-item .icon {
+			height: 38px;
+		}
+		.menu-horiz-item .title {
+			color: #777;
 		}
 
 	`,
 
 	tpl: `
 		<div class="view">
-			<div ui="headingEl" class="heading"></div>
+			<div ui="headingWrapperEl" class="heading-wrapper"></div>
 			<div ui="contentEl" class="content"></div>
-			<div id="bottom-bar"></div>
+			<div ui="bottomBarWrapperEl" class="bottom-bar-wrapper"></div>
 		</div>
 	`,
 
-	teamHeadingTpl: `
-		<div class="heading-team">
+	headingTpl: `
+		<div class="heading">
 			<div style="display: inline-block">
-				<div class="team-name">
-					<div ui="teamAvatarEl" class="team-avatar team-avatar-small"></div>
-					<div ui="teamNameEl"></div>
+				<div class="title">
+					<div ui="headingIconEl"></div>
+					<div ui="headingTitleEl"></div>
 				</div>
 			</div>
-			<div ui="teamUsersEl" class="team-item"></div>
-		</div>
-	`,
-
-	orgHeadingTpl: `
-		<div class="heading-team">
-			<div style="display: inline-block">
-				<div class="team-name">
-					<img src="img/logo.png" class="tiny-logo">
-					<div ui="orgNameEl"></div>
-				</div>
-			</div>
-			<div class="team-item">xxx</div>
+			<div ui="subHeadingTitleEl" class="sub-title"></div>
 		</div>
 	`,
 
@@ -134,8 +145,21 @@ mini.define('Application', {
 	orgMenuHeadingTpl:
 		`<div class="team-menu-heading">Samepage Labs</div>`,
 
+	teamAvatarTpl: function(name) {
+		return `<div class="team-avatar team-avatar-small">${name[0]}</div>`;
+	},
+
 	avatarTpl: function(user, cls) {
 		return `<img class="${cls}" src="https://samepage.io/api/app/rest/userpicture/user-${user.guid}-large.png"/>`
+	},
+
+	smallSpLogo: `<img style="width: 24px;height:24px;border-radius: 50%;border: 1px solid #eee;margin-right: 5px" src="img/logo.png">`,
+
+	menuItemTpl: function(item) {
+		return `<div class="menu-horiz-item">
+			<div class="icon">${item.icon}</div>
+			<div class="title">${item.title}</div>
+		</div>`
 	},
 
 	init: function(config) {
@@ -147,61 +171,67 @@ mini.define('Application', {
 
 		mini.createElement(this.tpl, this, 'app-frame');
 
-		this.teamHeadingEl = mini.createElement(this.teamHeadingTpl, this, this.headingEl);
-		this.orgHeadingEl = mini.createElement(this.orgHeadingTpl, this, this.headingEl);
-
-		mini.css(this.teamHeadingEl, {display: 'none'});
-		mini.css(this.orgHeadingEl, {display: 'none'});
-
-		$('#nav-more-button').html(images.more);
-		$('#nav-button').html(images.navbutton);
-		$('#back-button').html(images.back);
+		mini.createElement(this.headingTpl, this, this.headingWrapperEl);
 
 		this.bottomBar = new BottomBar();
-		mini.addListener(this.bottomBar, 'teamButton', function(event) {
-			this.teamMenu.show();
-		}, this);
-		mini.addListener(this.bottomBar, 'orgButton', function(event) {
-			this.orgMenu.show();
-		}, this);
-
-		this.bottomBar.selectItem({name: 'Pages'});
+		mini.addListener(this.bottomBar, {
+			navButton: function(event) {
+				this.teamMenu.show();
+			},
+			backButton: function(event) {
+				this.navigateBack();
+			},
+			moreButton: function(event) {
+				this.moreMenu.show();
+			},
+			scope: this
+		});
 
 		this.teamUsers = [];
 		this.teamUserNames.forEach(function(userName) {
 			this.teamUsers.push(findUserByName(userName));
 		}.bind(this));
+		this.orgUsers = [];
+		this.orgUserNames.forEach(function(userName) {
+			this.orgUsers.push(findUserByName(userName));
+		}.bind(this));
 
-		this.teamMenu = new Menu({
+		this.teamMenu = new Menu(
+			{
 			items: [
+				{tpl: this.orgMenuHeadingTpl},
+				{items: this.orgUsers, tpl: '<div class="team-menu-users"></div>', itemTpl: this.avatarTpl, itemCls: 'user-avatar'},
+				{
+					items: [
+						{id: 'Inbox', section: 'org', title: 'Inbox', icon: images.inbox},
+						{id: 'Teams', section: 'org', title: 'Teams', icon: images.teams},
+						{id: 'Tasks', section: 'org', title: 'Tasks', icon: images.task},
+						{id: 'Calendar', section: 'org', title: 'Calendar', icon: images.calendar},
+						{id: 'Search', section: 'org', title: 'Search', icon: images.search}
+					],
+					tpl: '<div class="menu-horiz-items"></div>',
+					itemTpl: this.menuItemTpl
+				},
+				{type: 'spacer'},
 				{tpl: this.teamMenuHeadingTpl},
-				{items: this.teamUsers, cls: 'team-menu-users', itemTpl: this.avatarTpl, itemCls: 'user-avatar'},
-				{id: 'Chat', name: 'Chat'},
-				{id: 'Pages', name: 'Pages'},
-				{id: 'Tasks', name: 'Tasks'},
-				{id: 'Calendar', name: 'Calendar'},
-				{id: 'Files', name: 'Files'},
-				{id: 'Settings', name: 'Settings'}
+				{items: this.teamUsers, tpl: '<div class="team-menu-users"></div>', itemTpl: this.avatarTpl, itemCls: 'user-avatar'},
+				{
+					items: [
+						{id: 'Chat', section: 'team', title: 'Chat', icon: images.chat},
+						{id: 'Pages', section: 'team', title: 'Pages', icon: images.pages},
+						{id: 'Tasks', section: 'team', title: 'Tasks', icon: images.task},
+						{id: 'Calendar', section: 'team', title: 'Calendar', icon: images.calendar},
+						{id: 'Files', section: 'team', title: 'Files', icon: images.files},
+					],
+					tpl: '<div class="menu-horiz-items"></div>',
+					itemTpl: this.menuItemTpl
+				}
 			]
 		});
 
 		mini.addListener(this.teamMenu, 'select', function(event) {
-			this.bottomBar.selectItem(event.item);
-			this.navigateTo('team', event.item.id);
+			this.navigateTo(event.item.section, event.item.id);
 		}, this);
-
-		this.orgMenu = new Menu({
-			items: [
-				{tpl: this.orgMenuHeadingTpl},
-				//{items: this.teamUsers, cls: 'team-menu-users', itemTpl: this.avatarTpl, itemCls: 'user-avatar'},
-				{id: 'Inbox', name: 'Inbox'},
-				{id: 'Teams', name: 'Teams'},
-				{id: 'Tasks', name: 'Tasks'},
-				{id: 'Calendar', name: 'Calendar'},
-				{id: 'Settings', name: 'Settings'}
-			]
-		});
-
 
 		this.moreMenu = new Menu({
 			items: [
@@ -210,25 +240,11 @@ mini.define('Application', {
 			]
 		});
 
-		$('#nav-more-button').on('touchend', function() {
-			this.moreMenu.show();
-		});
-
-		$('#bottom-bar').append(this.bottomBar.getEl());
+		this.bottomBarWrapperEl.appendChild(this.bottomBar.getEl());
 
 		this.preloadImages('org', this.orgImages);
 		this.preloadImages('team', this.teamImages);
 		this.preloadImages('user', ['Chat']);
-
-		$('#back-button').on('touchend', function() {
-			if (this.history.length < 2) {
-				return
-			};
-			this.history.pop();
-			var
-				lastItem = this.history.pop();
-			this.navigateTo(lastItem.section, lastItem.title);
-		});
 
 		this.navigateTo('team', 'Page');
 
@@ -268,6 +284,16 @@ mini.define('Application', {
 		this.lastScrollTop = st;
 	},
 
+	navigateBack: function() {
+		if (this.history.length < 2) {
+			return;
+		};
+		this.history.pop();
+		var
+			lastItem = this.history.pop();
+		this.navigateTo(lastItem.section, lastItem.title);
+	},
+
 	navigateTo: function(section, title) {
 		this.history.push({
 			section: section,
@@ -277,32 +303,23 @@ mini.define('Application', {
 		this.setMoreButtonState(section, title);
 
 		if (section === 'org') {
-			this.setOrgHeading('Samepage labs', title)
+			this.setHeading('Samepage Labs', title, this.smallSpLogo);
 			this.setContent('org', title);
 		}
 		else if (section === 'team'){
-			this.setTeamHeading('Customer Support Team', title)
+			this.setHeading('Customer Support Team', title, this.teamAvatarTpl(title));
 			this.setContent('team', title);
 		}
 		else if (section === 'user') {
-			this.setOrgHeading('Samepage labs', title)
+			this.setHeading('Samepage labs', title)
 			this.setContent('user', 'Chat');
 		}
 	},
 
-	setTeamHeading: function(teamName, teamItem) {
-		mini.css(this.teamHeadingEl, {display: 'block'});
-		mini.css(this.orgHeadingEl, {display: 'none'});
-		mini.html(this.teamNameEl, teamName);
-		mini.html(this.teamAvatarEl, teamName[0]);
-		// this.teamUsers.forEach(function(userName) {
-		// 	mini.createElement(this.avatarTpl(findUserByName(userName), 'avatar-small'), {}, this.teamUsersEl);
-		// }.bind(this));
-	},
-
-	setOrgHeading: function(orgName, itemName) {
-		mini.css(this.teamHeadingEl, {display: 'none'});
-		mini.css(this.orgHeadingEl, {display: 'block'});
+	setHeading: function(heading, subHeading, iconHtml) {
+		mini.html(this.headingTitleEl, heading);
+		mini.html(this.subHeadingTitleEl, subHeading);
+		mini.html(this.headingIconEl, iconHtml);
 	},
 
 	setContent: function(section, title) {
@@ -317,12 +334,7 @@ mini.define('Application', {
 	},
 
 	setBackButtonState: function() {
-		if (this.history.length < 2) {
-			$('#back-button').addClass('disabled');
-		}
-		else {
-			$('#back-button').removeClass('disabled');
-		}
+		this.bottomBar.enableBackButton(this.history.length < 2);
 	},
 
 	setMoreButtonState: function(section, title) {
