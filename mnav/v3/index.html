@@ -9,7 +9,8 @@
 	<script src="svg.js"></script>
 	<script src="mini.js"></script>
 	<script src="BottomBar.js"></script>
-	<script src="main.js"></script>
+	<script src="Menu.js"></script>
+	<script src="Application.js"></script>
 	<script src="data.js"></script>
 
 	<meta name="apple-mobile-web-app-capable" content="yes">
@@ -19,7 +20,9 @@
 	<link rel="apple-touch-icon" href="img/appicon.png">
 
 	<script>
-	$(document).ready(main.init);
+		$(document).ready(function() {
+			new Application();
+		});
 	</script>
 
 	<title>Nav</title>
@@ -28,62 +31,7 @@
 
 <body>
 
-<div id="app-frame">
-
-	<div id="view">
-		<div id="heading"></div>
-		<div id="content"></div>
-		<div id="bottom-bar"></div>
-	</div>
-
-	<div id="overlay">
-
-		<div id="main-section">
-
-			<div id="org-selector" style="height: 360px"></div>
-
-			<div class="section-label">Organization</div>
-			<div id="nav-menu-org" class="nav-menu nav-menu-org">
-				<div class="title">
-					<img class="logo" src="img/logo.png">
-					<div class="text">Samepage Labs</div>
-					<div class="settings"></div>
-				</div>
-				<div class="user-list" id="org-users"></div>
-				<div id="org-items" class="menu-items"></div>
-			</div>
-
-		</div>
-
-		<div class="section-label">Pinned</div>
-		<div id="pinned">
-			<div id="fav-users" style=""></div>
-			<div id="pinned-pages">
-				<div class="pinned-page">Page 1</div>
-				<div class="pinned-page">Page 2</div>
-				<div class="pinned-page">Page 3</div>
-				<div class="pinned-page">Page 4</div>
-				<div class="pinned-page">Page 5</div>
-				<div class="pinned-page">Page 6</div>
-				<div class="pinned-page">Page 7</div>
-				<div class="pinned-page">Page 8</div>
-			</div>
-		</div>
-
-		<div style="height: 50px;"></div>
-		<div id="horizvert" style="padding: 20px;color:white;">Horizontal / Vertical switch</div>
-
-	</div>
-
-</div>
-
-<div id="context-menu">
-	<div class="context-menu-items">
-		<div class="context-menu-item">Action 1</div>
-		<div class="context-menu-item">Action 2</div>
-		<div class="context-menu-item">Action 3</div>
-	</div>
-</div>
+	<div id="app-frame"></div>
 
 </body>
 

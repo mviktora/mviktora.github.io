@@ -1,9 +1,9 @@
-html,body {
-			 margin: 0 0;
-			 height: 100%;
-			 width: 100%;
-			 overflow: auto;
-	 }
+html, body {
+	margin: 0 0;
+	height: 100%;
+	width: 100%;
+	overflow: auto;
+}
 
 body, div {
 	padding: 0;
@@ -19,9 +19,6 @@ body, div {
 	overflow: auto;
 		-webkit-overflow-scrolling: touch;
 }
-#app-frame.show-menu #overlay {
-	display: block;
-}
 
 #app-frame.show-menu #back-button, #app-frame.show-menu #nav-more-button {
 	display: none;
@@ -31,29 +28,7 @@ body, div {
 	filter: blur(6px);
 }
 
-#view {
-	position: absolute;left:0;top:0;right:0;bottom:0;
-	overflow: hidden;
-}
 
-#view #content {
-	position: absolute;
-	top: 52px;
-	left: 0;
-	right: 0;
-	bottom: 53px;
-	overflow: auto;
-	-webkit-overflow-scrolling: touch;
-}
-
-#bottom-bar {
-	position: absolute;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	height: 52px;
-	border-top: 1px solid #ddd;
-}
 
 #main-navigation {
 	background: #f5f5f5;
@@ -110,28 +85,6 @@ body, div {
 	-webkit-overflow-scrolling: touch;
 }
 
-#overlay {
-	display: none;
-	position: absolute;
-	z-index: 100;
-	left: 0;
-	top: 0;
-	right: 0;
-	bottom: 53px;
-	background: rgba(0, 0,0,.4);
-	overflow: auto;
-	-webkit-overflow-scrolling: touch;
-}
-
-#content > img {
-	display: none;
-	width: 100%;
-}
-
-.show-image {
-	display: block !important;
-}
-
 .title {
 	padding: 0px 13px;
 	height: 42px;
@@ -147,40 +100,6 @@ body, div {
 	flex-grow: 1;
 }
 
-#heading {
-	position: absolute;
-	left: 0;
-	top: 0;
-	min-height: 52px;
-	width: 100%;
-	text-align: center;
-	background-color: #fff;
-	border-bottom: 1px solid #eee;
-}
-
-#heading .heading-team .team-name {
-	margin-top: 4px;
-	height: 22px;
-	line-height: 22px;
-	display: flex;
-	align-items: center;
-}
-
-#heading .heading-team .team-item {
-	font-weight: bold;
-	height: 25px;
-	line-height: 25px;
-	font-size: 16px;
-}
-
-#heading .heading-org {
-	font-size: 20px;
-	line-height: 52px;
-}
-
-#tasks-fill {
-	fill: none;
-}
 
 #tasks-border, #check, #inbox-icon, #calendar-border, #chat-border, #dots {
 	fill: #999;
@@ -255,99 +174,6 @@ body, div {
 	fill: #ddd;
 }
 
-
-#context-menu {
-	position: absolute;
-	left: 0;
-	top: 0;
-	bottom: 0;
-	right: 0;
-	background-color: rgba(0,0,0,.3);
-	display: none;
-	flex-direction: column;
-	border-radius: 13px;
-}
-
-#context-menu .context-menu-items {
-	position: absolute;
-	bottom: 100px;
-	width: 100%;
-}
-
-#context-menu .context-menu-item {
-	margin: 0 13px;
-	background: #fff;
-	padding: 15px 20px;
-	font-size: 18px;
-	color: #999;
-	border-bottom: 1px solid #f0f0f0;
-}
-
-#context-menu.show-context-menu {
-	display: flex;
-}
-
-#context-menu .context-menu-item:first-child {
-	border-top-left-radius: 13px;
-	border-top-right-radius: 13px;
-}
-
-#context-menu .context-menu-item:last-child {
-	border-bottom-left-radius: 13px;
-	border-bottom-right-radius: 13px;
-	border: none;
-}
-
-#nav-menu-org {
-}
-
-.section-label {
-	padding-top: 10px;
-	color: #fff;
-	opacity: .7;
-	font-weight: bold;
-	font-size: 13px;
-	margin-top: 12px;
-	margin-bottom: 5px;
-	margin-left: 21px;
-}
-
-#pinned {
-	border-radius: 3px;
-	background-color: #fff;
-	margin: 0 13px;
-}
-
-#fav-users {
-	padding: 13px;
-}
-
-#pinned .pinned-page {
-	padding: 10px 13px;
-	color: #777;
-	border-top: 1px solid #f0f0f0;
-}
-
-#org-selector {
-	margin: 13px;
-	margin-top: 50px;
-}
-
-
-#app-frame.vertical .menu-items {
-	flex-direction: column;
-}
-
-#app-frame.vertical .menu-items > div {
-	display: flex;
-	align-items: center;
-	height: 40px;
-}
-
-#app-frame.vertical .menu-item-icon {
-	width: 42px;
-	padding-top: 0;
-}
 
 #nav-menu-team {
 	position: absolute;

@@ -2,23 +2,14 @@
 
 mini.define('BottomBar', {
 
+	events: ['select'],
+
 	css: `
-		.team-users {
+		.team-buttom {
 			border-radius: 7px;
 			background: #ddd;
 			display: inline-block;
-			padding: 4px 7px;
-		}
-		.team-users img {
-			min-width: 24px;
-			height: 24px;
-			border-radius: 50%;
-			background: #f0f0f0;
-			margin-left: -10px;
-			border: 2px solid #fff;
-		}
-		.team-users img:first-child {
-			margin-left: 0 !Important;
+			padding: 5px 13px;
 		}
 		.team-button {
 			text-align: center;
@@ -30,7 +21,7 @@ mini.define('BottomBar', {
 		`<div id="main-navigation">
 			<div id="nav-button" class="bottom-button"></div>
 			<div class="team-button">
-				<div ui="teamUsersEl" class="team-users"></div>
+				<div ui="teamButtonEl" class="team-buttom"></div>
 			</div>
 			<div id="nav-more-button" class="bottom-button"></div>
 		</div>
@@ -43,20 +34,18 @@ mini.define('BottomBar', {
 	init: function() {
 		this.el = mini.createElement(this.tpl, this);
 
-		this._addUser(findUserByName('Scott'));
-		this._addUser(findUserByName('Praus'));
-		this._addUser(findUserByName('Markéta'));
+		this.addListener(this.el, 'touchend', function(event) {
+			this.fireEvent('select', {});
+			event.preventDefault();
+		}, this);
 	},
 
 	getEl: function() {
 		return this.el;
 	},
 
-	_addUser: function(user) {
-		var
-			ui = {};
-
-		mini.createElement(this.avatarTpl(user), ui, this.teamUsersEl);
+	selectItem: function(item) {
+		this.teamButtonEl.innerHTML = item.name;
 	}
 
 });
