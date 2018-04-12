@@ -131,6 +131,9 @@ mini.define('Application', {
 	teamMenuHeadingTpl:
 		`<div class="team-menu-heading">Customer Support Team</div>`,
 
+	orgMenuHeadingTpl:
+		`<div class="team-menu-heading">Samepage Labs</div>`,
+
 	avatarTpl: function(user, cls) {
 		return `<img class="${cls}" src="https://samepage.io/api/app/rest/userpicture/user-${user.guid}-large.png"/>`
 	},
@@ -155,8 +158,11 @@ mini.define('Application', {
 		$('#back-button').html(images.back);
 
 		this.bottomBar = new BottomBar();
-		mini.addListener(this.bottomBar, 'select', function(event) {
+		mini.addListener(this.bottomBar, 'teamButton', function(event) {
 			this.teamMenu.show();
+		}, this);
+		mini.addListener(this.bottomBar, 'orgButton', function(event) {
+			this.orgMenu.show();
 		}, this);
 
 		this.bottomBar.selectItem({name: 'Pages'});
@@ -183,6 +189,19 @@ mini.define('Application', {
 			this.bottomBar.selectItem(event.item);
 			this.navigateTo('team', event.item.id);
 		}, this);
+
+		this.orgMenu = new Menu({
+			items: [
+				{tpl: this.orgMenuHeadingTpl},
+				//{items: this.teamUsers, cls: 'team-menu-users', itemTpl: this.avatarTpl, itemCls: 'user-avatar'},
+				{id: 'Inbox', name: 'Inbox'},
+				{id: 'Teams', name: 'Teams'},
+				{id: 'Tasks', name: 'Tasks'},
+				{id: 'Calendar', name: 'Calendar'},
+				{id: 'Settings', name: 'Settings'}
+			]
+		});
+
 
 		this.moreMenu = new Menu({
 			items: [
