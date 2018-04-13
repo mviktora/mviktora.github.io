@@ -70,24 +70,6 @@ mini.define('Application', {
 			border-top: 1px solid #ddd;
 		}
 
-		.team-menu-users {
-			padding: 10px;
-			background: #fff;
-			white-space: nowrap;
-			overflow: auto;
-			-webkit-overflow-scrolling: touch;
-			border-bottom: 1px solid #f0f0f0;
-		}
-
-		.user-avatar {
-			min-width: 32px;
-			height: 32px;
-			border-radius: 50%;
-			background: #f0f0f0;
-			margin-left: 2px;
-			border: 2px solid #fff;
-		}
-
 		.team-menu-heading {
 			font-weight: bold;
 			background: #fff;
@@ -97,24 +79,24 @@ mini.define('Application', {
 			border-bottom: 1px solid #f0f0f0;
 		}
 
-		.menu-horiz-items {
-
-			background: #fff;
-			padding: 5px 13px;
-		}
-
-		.menu-horiz-item {
-			display: inline-block;
-			padding: 3px 7px;
-			width: 27%;
+		.heading .team-avatar {
+			width: 24px;
+			height: 24px;
+			border-radius: 3px;
+			border: 1px solid #999;
+			color: #999;
 			text-align: center;
+			line-height: 24px;
+			margin-right: 7px;
+			margin-left: 7px;
+			display: inline-block;
 		}
 
-		.menu-horiz-item .icon {
-			height: 38px;
-		}
-		.menu-horiz-item .title {
-			color: #777;
+		.heading .team-avatar-small {
+			font-size: 11px;
+			height: 16px;
+			width: 16px;
+			line-height: 16px;
 		}
 
 	`,
@@ -139,28 +121,11 @@ mini.define('Application', {
 		</div>
 	`,
 
-	teamMenuHeadingTpl:
-		`<div class="team-menu-heading">Customer Support Team</div>`,
-
-	orgMenuHeadingTpl:
-		`<div class="team-menu-heading">Samepage Labs</div>`,
-
 	teamAvatarTpl: function(name) {
 		return `<div class="team-avatar team-avatar-small">${name[0]}</div>`;
 	},
 
-	avatarTpl: function(user, cls) {
-		return `<img class="${cls}" src="https://samepage.io/api/app/rest/userpicture/user-${user.guid}-large.png"/>`
-	},
-
 	smallSpLogo: `<img style="width: 24px;height:24px;border-radius: 50%;border: 1px solid #eee;margin-right: 5px" src="img/logo.png">`,
-
-	menuItemTpl: function(item) {
-		return `<div class="menu-horiz-item">
-			<div class="icon">${item.icon}</div>
-			<div class="title">${item.title}</div>
-		</div>`
-	},
 
 	init: function(config) {
 
@@ -169,11 +134,12 @@ mini.define('Application', {
 		this.didScroll = false;
 		this.lastScrollTop = 0;
 
-		mini.createElement(this.tpl, this, 'app-frame');
+		this.el = mini.createElement(this.tpl, this, 'app-frame');
 
 		mini.createElement(this.headingTpl, this, this.headingWrapperEl);
 
-		this.bottomBar = new BottomBar();
+		this.bottomBar = new BottomBar({
+		});
 		mini.addListener(this.bottomBar, {
 			navButton: function(event) {
 				this.teamMenu.show();
@@ -187,50 +153,21 @@ mini.define('Application', {
 			scope: this
 		});
 
-		this.teamUsers = [];
-		this.teamUserNames.forEach(function(userName) {
-			this.teamUsers.push(findUserByName(userName));
-		}.bind(this));
-		this.orgUsers = [];
-		this.orgUserNames.forEach(function(userName) {
-			this.orgUsers.push(findUserByName(userName));
-		}.bind(this));
-
-		this.teamMenu = new Menu(
-			{
-			items: [
-				{tpl: this.orgMenuHeadingTpl},
-				{items: this.orgUsers, tpl: '<div class="team-menu-users"></div>', itemTpl: this.avatarTpl, itemCls: 'user-avatar'},
-				{
-					items: [
-						{id: 'Inbox', section: 'org', title: 'Inbox', icon: images.inbox},
-						{id: 'Teams', section: 'org', title: 'Teams', icon: images.teams},
-						{id: 'Tasks', section: 'org', title: 'Tasks', icon: images.task},
-						{id: 'Calendar', section: 'org', title: 'Calendar', icon: images.calendar},
-						{id: 'Search', section: 'org', title: 'Search', icon: images.search}
-					],
-					tpl: '<div class="menu-horiz-items"></div>',
-					itemTpl: this.menuItemTpl
-				},
-				{type: 'spacer'},
-				{tpl: this.teamMenuHeadingTpl},
-				{items: this.teamUsers, tpl: '<div class="team-menu-users"></div>', itemTpl: this.avatarTpl, itemCls: 'user-avatar'},
-				{
-					items: [
-						{id: 'Chat', section: 'team', title: 'Chat', icon: images.chat},
-						{id: 'Pages', section: 'team', title: 'Pages', icon: images.pages},
-						{id: 'Tasks', section: 'team', title: 'Tasks', icon: images.task},
-						{id: 'Calendar', section: 'team', title: 'Calendar', icon: images.calendar},
-						{id: 'Files', section: 'team', title: 'Files', icon: images.files},
-					],
-					tpl: '<div class="menu-horiz-items"></div>',
-					itemTpl: this.menuItemTpl
-				}
-			]
+		this.teamMenu = new Navigation({
+			blurEl: this.el,
+			orgName: 'Samepage Labs',
+			teamName: 'Customer Support Team',
+			orgUsers: this.getUsers(this.orgUserNames),
+			teamUsers: this.getUsers(this.teamUserNames)
 		});
 
 		mini.addListener(this.teamMenu, 'select', function(event) {
-			this.navigateTo(event.item.section, event.item.id);
+			if (event.item.section) {
+				this.navigateTo(event.item.section, event.item.id);
+			}
+			else {
+				this.navigateTo('user', event.item.fullName);
+			}
 		}, this);
 
 		this.moreMenu = new Menu({
@@ -311,7 +248,7 @@ mini.define('Application', {
 			this.setContent('team', title);
 		}
 		else if (section === 'user') {
-			this.setHeading('Samepage labs', title)
+			this.setHeading('Samepage labs', title, this.smallSpLogo);
 			this.setContent('user', 'Chat');
 		}
 	},
@@ -350,6 +287,15 @@ mini.define('Application', {
 		var
 			x = $('#main-section').height() - $('#app-frame').height() + 120;
 		$('#overlay')[0].scrollTop = x;
+	},
+
+	getUsers: function(userNames) {
+		var
+			users = [];
+		userNames.forEach(function(userName) {
+			users.push(findUserByName(userName));
+		});
+		return users;
 	}
 
 });

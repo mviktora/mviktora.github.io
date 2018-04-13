@@ -13,7 +13,6 @@ mini.define('Menu', {
 			height: 100%;
 			right: 0;
 			background-color: rgba(0,0,0,.4);
-			background: #f0f0f0;
 			transition: top .2s;
 			display: none;
 		}
@@ -21,8 +20,8 @@ mini.define('Menu', {
 		.context-menu .context-menu-items {
 			position: absolute;
 			bottom: 100px;
-			xleft: 10px;
-			xright: 10px;
+			left: 10px;
+			right: 10px;
 		}
 
 		.context-menu .context-menu-item {
@@ -37,12 +36,12 @@ mini.define('Menu', {
 			display: block;
 		}
 
-		.xcontext-menu .top-corners {
+		.context-menu .top-corners {
 			border-top-left-radius: 13px;
 			border-top-right-radius: 13px;
 		}
 
-		.xcontext-menu .bottom-corners {
+		.context-menu .bottom-corners {
 			border-bottom-left-radius: 13px;
 			border-bottom-right-radius: 13px;
 			border: none;

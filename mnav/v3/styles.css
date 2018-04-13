@@ -20,11 +20,6 @@ body, div {
 	-webkit-overflow-scrolling: touch;
 }
 
-#app-frame.show-menu #content, #app-frame.show-menu #heading {
-	filter: blur(6px);
-}
-
-
 #tasks-border, #check, #inbox-icon, #calendar-border, #chat-border, #dots {
 	fill: #999;
 	stroke: none;
@@ -63,29 +58,4 @@ body, div {
 #tasks-border, #check, #inbox-icon, #calendar-border, #chat-border, #dots {
 	fill: #999;
 	stroke: none;
-}
-
-.team-avatar {
-	width: 24px;
-	height: 24px;
-	border-radius: 3px;
-	border: 1px solid #999;
-	color: #999;
-	text-align: center;
-	line-height: 24px;
-	margin-right: 7px;
-	margin-left: 7px;
-	display: inline-block;
-}
-
-.team-avatar-small {
-	font-size: 11px;
-	height: 16px;
-	width: 16px;
-	line-height: 16px;
-}
-
-.tiny-logo {
-	width: 22px;
-	border-radius: 50%;
 }
