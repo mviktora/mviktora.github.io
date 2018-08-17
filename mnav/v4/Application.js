@@ -142,7 +142,14 @@ mini.define('Application', {
 		});
 		mini.addListener(this.bottomBar, {
 			navButton: function(event) {
-				this.teamMenu.show();
+				if (this.showMenu) {
+					this.teamMenu.hide();
+					this.showMenu = false;
+				}
+				else {
+					this.showMenu = true;
+					this.teamMenu.show();
+				}
 			},
 			backButton: function(event) {
 				this.navigateBack();
@@ -156,7 +163,7 @@ mini.define('Application', {
 		this.teamMenu = new Navigation({
 			blurEl: this.el,
 			orgName: 'Samepage Labs',
-			teamName: 'Customer Support Team',
+			teamName: 'Currently opened team',
 			orgUsers: this.getUsers(this.orgUserNames),
 			teamUsers: this.getUsers(this.teamUserNames)
 		});

@@ -97,24 +97,9 @@ var mini = (function () {
 
 	}
 
-	function parseSCSS(text) {
-		var x, pos = 0;
-		while (1) {
-			x = text.indexOf('{', pos);
-			if (x === -1) {
-				break;
-			}
-
-
-
-		}
-	}
-
 	function addCSS(rules) {
 		var
 			styleEl = document.getElementById('main-styles');
-
-			//parseSCSS(rules);
 
 		if (!styleEl) {
 			styleEl = document.createElement('style');
@@ -122,7 +107,7 @@ var mini = (function () {
 			document.head.appendChild(styleEl);
 		}
 
-		styleEl.innerHTML = styleEl.innerHTML + `@media all { ${rules} }`;
+		styleEl.sheet.insertRule(`@media all { ${rules} }`, 0);
 	}
 
 	function loadResource(name) {

@@ -1,0 +1,61 @@
+html, body {
+	margin: 0 0;
+	height: 100%;
+	width: 100%;
+	overflow: auto;
+}
+
+body, div {
+	padding: 0;
+	margin: 0;
+	font-family: Helvetica;
+	font-size: 15px;
+}
+
+#app-frame {
+	position: relative;width:100%;height:100%;overflow: hidden;
+	background: #f7f7f7;
+	-webkit-user-select: none;
+	overflow: auto;
+	-webkit-overflow-scrolling: touch;
+}
+
+#tasks-border, #check, #inbox-icon, #calendar-border, #chat-border, #dots {
+	fill: #999;
+	stroke: none;
+}
+
+#pages-icon path, #teams-icon path, #file-icon, #search-icon path {
+	fill: transparent;
+	stroke: #999;
+}
+
+#page-fill, #back-page-fill, #corner-fill {
+	fill: none;
+}
+
+#lines {
+	fill: #999;
+}
+
+#page-border, #back-page-border, #corner-border {
+	fill: none;
+	stroke: #999;
+}
+
+#back-page-fill, #back-page-border{
+	stroke: none;
+}
+
+#more-icon circle, #back-icon {
+	fill: #777;
+}
+
+#tasks-fill {
+	fill: none;
+}
+
+#tasks-border, #check, #inbox-icon, #calendar-border, #chat-border, #dots {
+	fill: #999;
+	stroke: none;
+}
