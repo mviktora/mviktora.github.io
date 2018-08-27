@@ -17,6 +17,7 @@ mini.define('BottomBar', {
 			padding: 0 20px;
 			height: 53px;
 			border-top: 1px solid #ccc;
+			z-index: 1000
 		}
 
 		.bottom-bar > .center {

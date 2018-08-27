@@ -2,7 +2,7 @@
 
 mini.define('Team', {
 
-	events: ['endNavMode', 'contentClick'],
+	events: ['select', 'endNavMode', 'contentClick'],
 
 	animationTiming:  '.4s ease-in-out',
 
@@ -11,12 +11,10 @@ mini.define('Team', {
 		.team {
 			position: absolute;
 			top: 0px;
-			left: 0;
-			right: 0;
-			height: 100%;
+			width: 100%;
+			height: calc(100% - 53px);
 			overflow: auto;
 			-webkit-overflow-scrolling: touch;
-			box-shadow: 0 0 23px #555;
 			transition: all .4s ease-in-out;
 		}
 
@@ -38,10 +36,6 @@ mini.define('Team', {
 			border-top:1px solid #5E94C1;
 		}
 
-		.team.org .content {
-			top: 114px;
-		}
-
 		.team .heading {
 			display: flex;
 			min-height: 56px;
@@ -61,7 +55,6 @@ mini.define('Team', {
 			position: absolute;
 			display: flex;
 			top: 56px;
-			height: 56px;
 			width: 100%;
 			align-items: center;
 			border-bottom: 1px solid #eee;
@@ -70,7 +63,7 @@ mini.define('Team', {
 		.team .team-tabs > .team-tab {
 			flex-grow: 1;
 			text-align: center;
-			height: 50px;
+			height: 46px;
 		}
 		.team .team-tabs > .team-tab:first-child {
 			border: none;
@@ -78,10 +71,13 @@ mini.define('Team', {
 		.team .team-tabs > .team-tab svg {
 			margin-top: 11px;
 		}
+		.team .team-tabs > .team-tab.selected {
+			background-color: #ddd;
+		}
 
 		.team .content {
 			position: absolute;
-			top: 56px;
+			top: 104px;
 			bottom: 0;
 			width: 100%;
 			transition: top .4s ease-in-out;
@@ -98,11 +94,8 @@ mini.define('Team', {
 		}
 
 		.team.slide-in {
-			border-radius: 7px;
-		}
 
-		.team.slide-in .content {
-			top: 114px;
+			box-shadow: 0 0 23px #555;
 		}
 
 		.team .team-avatar {
@@ -167,34 +160,40 @@ mini.define('Team', {
 		this.el = mini.createElement(this.tpl, this);
 		this._preloadImages(config.org ? 'org' : 'team', config.content);
 
-		config.tabs.forEach(function(tab) {
-			var el;
-			el = mini.createElement(this.tabTpl(images[tab]), null, this.tabsEl);
-			mini.addListener(el, 'touchend', function() {
+		config.tabs.forEach(function(tabName) {
+			var tab = {
+				name: tabName
+			};
+			tab.el = mini.createElement(this.tabTpl(images[tabName]), null, this.tabsEl);
+			mini.addListener(tab.el, 'touchend', function() {
 				this._onSelectTab(tab);
-			//	this._endNavigationMode();
 			}, this);
 		}.bind(this));
 
-		mini.addListener(this.headingEl, {
+		mini.addListener(this.el, {
 			touchstart: function(event) {
 				this.touchStart = event.touches[0];
 			},
 			touchmove: function(event) {
 				this.touchEnd = event.touches[0];
-				event.stopPropagation();
-				event.preventDefault();
+				if (this.asCard) {
+					event.stopPropagation();
+					event.preventDefault();
+				}
 			},
+				// if (this.touchEnd.clientY < this.touchStart.clientY) {
+				// 	this._endNavigationMode('up');
+				// }
+				// else {
+				// 	this._endNavigationMode('down');
+				// }
 			touchend: function(event) {
 				if (!this.touchEnd) {
-					return;
+					this.fireEvent('select');
 				}
-				if (this.touchEnd.clientY < this.touchStart.clientY) {
-					this._endNavigationMode('up');
-				}
-				else {
-					this._endNavigationMode('down');
-				}
+				delete this.touchEnd;
+				event.stopPropagation();
+				event.preventDefault();
 			},
 			scope: this
 		});
@@ -225,32 +224,28 @@ mini.define('Team', {
 		return this.el;
 	},
 
-	_endNavigationMode: function(direction) {
-		this.fireEvent('endNavMode', {direction: direction});
+	showAsCard: function(asCard) {
+		var
+			scale = 0.95 - this.order / 50;
+		this.asCard = asCard;
+		if (asCard) {
+			mini.addClass(this.el, 'slide-in');
+			mini.css(this.el, {transform: `matrix(${scale}, 0, 0, ${scale}, 0, 0)`});
+			mini.css(this.el, {
+			//	left: `${this.order * 5}px`,
+				top: `calc(60% - ${this.order * 110}px`
+			});
+		}
+		else {
+			mini.removeClass(this.el, 'slide-in');
+			mini.css(this.el, {transform: 'matrix(1, 0, 0, 1, 0, 0)'});
+			mini.css(this.el, {top: 0});
+		}
 	},
 
-	transform: function(tr) {
-
-		if (tr === 'halfscale') {
-			mini.addClass(this.el, 'slide-in');
-			mini.css(this.el, {transform: 'matrix(0.95, 0, 0, 0.95, 0, 0)'});
-			mini.css(this.el, {top: '50%'});
-		}
-		else if (tr === 'scale') {
-			mini.addClass(this.el, 'slide-in');
-			mini.css(this.el, {transform: 'matrix(0.95, 0, 0, 0.95, 0, 0)'});
-		}
-		else if (tr === 'up') {
-			mini.css(this.el, {top: '-100%'});
-		}
-		else if (tr === 'down') {
-			mini.css(this.el, {top: '100%'});
-		}
-		else if (tr === 'none') {
-			mini.removeClass(this.el, 'slide-in');
-			mini.css(this.el, {top: 0});
-			mini.css(this.el, {transform: 'matrix(1, 0, 0, 1, 0, 0)'});
-		}
+	setOrder: function(order) {
+		this.order = order;
+		mini.css(this.el, {'z-index': 100-this.order});
 	},
 
 	_preloadImages: function(section, images) {
@@ -261,8 +256,13 @@ mini.define('Team', {
 	},
 
 	_onSelectTab: function(tab) {
-		this._setContent(tab);
-		mini.html(this.subHeadingTitleEl, tab);
+		if (this.selectedTab) {
+			mini.removeClass(this.selectedTab.el, 'selected');
+		}
+		this.selectedTab = tab;
+		this._setContent(tab.name);
+		mini.addClass(tab.el, 'selected');
+		mini.html(this.subHeadingTitleEl, tab.name);
 	},
 
 	_setHeading: function(titleText, subtitleText) {

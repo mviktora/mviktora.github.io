@@ -23,69 +23,64 @@ mini.define('Application', {
 		</div>
 	`,
 
-	init: function(config) {
-
-		this.history = [];
-		this.currentTeam = 'Everyone';
-		this.didScroll = false;
-		this.lastScrollTop = 0;
-		this.navMode = false;
-
-		this.el = mini.createElement(this.tpl, this, 'app-frame');
-		/*
-		mini.addListener(this.el, {
-			touchend: function(event) {
-				if (event.target === this.el) {
-					this.enableNavMode(false);
-				}
-			},
-			scope: this
-		});
-		*/
-
-		this.orgCard = new Team({
+	cardsDef: [{
 			title: 'Samepage Labs',
 			subtitle: 'Inbox',
 			org: true,
 			tabs: ['Inbox', 'Teams', 'Tasks', 'Calendar', 'Search'],
 			content: ['Inbox', 'Teams', 'Calendar', 'Tasks', 'Search'],
 			icon: `<img style="width: 34px;height:34px;border-radius: 50%;backgrond:#fff;" src="img/logo.png">`
-		});
-		this.el.appendChild(this.orgCard.getEl());
-		mini.addListener(this.orgCard, function() {
-			//this.orgCard._navigate('matrix(0.95, 0, 0, 0.95, 0, 70)');
-		});
-
-		this.teamCard = new Team({
+		},
+		{
 			title: 'Customer Support Team',
 			tabs: ['Chat', 'Pages', 'Tasks', 'Calendar', 'Files'],
 			content: ['Pages', 'Chat', 'Tasks', 'Calendar', 'Files', 'Page', 'Settings'],
 			subtitle: "Call didn't stop ringing after answering"
-		});
+		},
+		{
+			title: 'Everyone',
+			tabs: ['Chat', 'Pages', 'Tasks', 'Calendar', 'Files'],
+			content: ['Pages', 'Chat', 'Tasks', 'Calendar', 'Files', 'Page', 'Settings'],
+			subtitle: "Call didn't stop ringing after answering"
+		},
+		{
+			title: 'BUGS',
+			tabs: ['Chat', 'Pages', 'Tasks', 'Calendar', 'Files'],
+			content: ['Pages', 'Chat', 'Tasks', 'Calendar', 'Files', 'Page', 'Settings'],
+			subtitle: "Call didn't stop ringing after answering"
+		}
+	],
 
-		this.el.appendChild(this.teamCard.getEl());
-		mini.addListener(this.teamCard, {
-			endNavMode: function(event) {
-				if (event.direction === 'up') {
-					this.setNavMode('team');
-				}
-				else {
-					this.setNavMode('org');
-				}
-			},
-			scope: this
-		});
+	init: function(config) {
+
+		this.history = [];
+		this.currentTeam = 'Everyone';
+		this.didScroll = false;
+		this.lastScrollTop = 0;
+		this.cards = [];
+
+		this.el = mini.createElement(this.tpl, this, 'app-frame');
+
+		this.cardsDef.forEach(function(cardDef) {
+			var
+				card = new Team(cardDef);
+			this.cards.push(card);
+			mini.addListener(card, {
+				select: function(event) {
+					this.setCardsOrder(card);
+					this.setNavMode(false);
+				},
+				scope: this
+			});
+
+			this.el.appendChild(card.getEl());
+		}.bind(this));
 
 		this.bottomBar = new BottomBar({});
 
 		mini.addListener(this.bottomBar, {
 			navButton: function(event) {
-				if (this.navMode) {
-					this.setNavMode('team');
-				}
-				else {
-					this.setNavMode('nav');
-				}
+				this.setNavMode(true);
 			},
 			backButton: function(event) {
 				this.navigateBack();
@@ -104,24 +99,29 @@ mini.define('Application', {
 		});
 
 		this.el.appendChild(this.bottomBar.getEl());
+
+		this.setCardsOrder(this.cards[1]);
 	},
 
-	setNavMode: function(showWhat) {
-		console.log(showWhat)
-		if (showWhat == 'nav') {
+	setCardsOrder: function(topCard) {
+		var i;
+		this.cards.splice(this.cards.indexOf(topCard), 1);
+		this.cards.unshift(topCard);
+		for (i = 0; i < this.cards.length; i++) {
+			this.cards[i].setOrder(i);
+		}
+	},
+
+	setNavMode: function(navMode) {
+		var i;
+		if (navMode) {
 			this.bottomBar.hide();
-			this.teamCard.transform('halfscale');
-			this.orgCard.transform('scale');
 		}
-		else if(showWhat === 'team') {
+		else {
 			this.bottomBar.show();
-			this.teamCard.transform('none');
-			this.orgCard.transform('none');
 		}
-		else if(showWhat === 'org') {
-			this.bottomBar.show();
-			this.teamCard.transform('down');
-			this.orgCard.transform('none');
+		for (i = 0; i < this.cards.length; i++) {
+			this.cards[i].showAsCard(navMode);
 		}
 	},
 
