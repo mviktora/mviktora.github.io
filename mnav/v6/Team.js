@@ -2,119 +2,117 @@
 
 mini.define('Team', {
 
-	events: ['select', 'endNavMode', 'contentClick'],
+	events: ['select'],
 
 	animationTiming:  '.4s ease-in-out',
 
 	css: `
 
-		.team {
+		.card {
 			position: absolute;
 			top: 0px;
 			width: 100%;
 			height: calc(100% - 53px);
 			overflow: auto;
 			-webkit-overflow-scrolling: touch;
-			transition: all .4s ease-in-out;
+			transition: all .5s ease-out;
+			display: flex;
+			flex-direction: column;
+			box-shadow: 0 0 23px #555;
 		}
 
-		.team.teamx > .heading {
-			background-color: #65ba4c;
+		.card .team-tabs {
+			background-color: #fff;
 		}
-		.team.teamx .team-tabs {
-			background-color: #f5f5f5;
+
+		.card.team > .heading {
+			background-color: ${colors.green};
+		}
+		.card.team .team-tabs {
 			border-top: 1px solid #6DA451;
+			border-bottom: 1px solid ${colors.green};
+		}
+		.card.team .team-tabs .tab-icon path {
+			stroke: ${colors.green};
 		}
 
-
-
-		.team.org .heading {
-			background-color: #55A8DD;
+		.card.org .heading {
+			background-color: ${colors.blue};
 		}
-		.team.org .team-tabs {
-			background-color:#f5f5f5;
-			border-top:1px solid #5E94C1;
+		.card.org .team-tabs {
+			border-bottom: 1px solid ${colors.blue};
+		}
+		.card.org .team-tabs .tab-icon path {
+			stroke: ${colors.blue};
 		}
 
-		.team .heading {
+		.card.user .heading {
+			background-color: #A44592;
+		}
+
+		.card .heading {
 			display: flex;
 			min-height: 56px;
 			color: #fff;
 			align-items: center;
 		}
 
-		.team .heading .title {
+		.card .heading .title {
 			font-size: 14px;
 		}
 
-		.team .heading .sub-title {
+		.card .heading .sub-title {
 			margin-top: 3px;
 		}
 
-		.team .team-tabs {
-			position: absolute;
+		.card .team-tabs {
 			display: flex;
-			top: 56px;
 			width: 100%;
+			min-height: 46px;
 			align-items: center;
 			border-bottom: 1px solid #eee;
 		}
-
-		.team .team-tabs > .team-tab {
+		.card .team-tabs > .team-tab {
 			flex-grow: 1;
 			text-align: center;
-			height: 46px;
-		}
-		.team .team-tabs > .team-tab:first-child {
-			border: none;
-		}
-		.team .team-tabs > .team-tab svg {
-			margin-top: 11px;
-		}
-		.team .team-tabs > .team-tab.selected {
-			background-color: #ddd;
+			min-height: 46px;
 		}
 
-		.team .content {
-			position: absolute;
-			top: 104px;
-			bottom: 0;
-			width: 100%;
-			transition: top .4s ease-in-out;
+		.card .team-tabs > .team-tab svg {
+			margin-top: 11px;
+		}
+		.card .team-tabs > .team-tab.selected path {
+			stroke-width: 2px;
+		}
+
+		.card .content {
+			flex-grow: 1;
 			overflow: auto;
 		}
 
-		.team .content img {
+		.card .content img {
 			display: none;
 			width: 100%;
 		}
 
-		.team .content img.show-image {
+		.card .content img.show-image {
 			display: block;
 		}
 
 		.team.slide-in {
 
-			box-shadow: 0 0 23px #555;
 		}
 
-		.team .team-avatar {
-			border-color: #fff !important;
-			color: #fff !important;
+		.card .team-avatar {
+			background-color: #fff !important;
+			color: ${colors.green} !important;
 		}
 
-		.team svg {
-			path {
-				fill: #fff !important;
-				stroke: #fff !important;
-			}
-		}
-
-		.team .avatar-wrapper {
+		.card .avatar-wrapper {
 			padding: 0 13px;
 		}
 
-		.team .heading .team-avatar {
+		.card .heading .team-avatar {
 			width: 28px;
 			height: 28px;
 			border-radius: 3px;
@@ -126,11 +124,27 @@ mini.define('Team', {
 			border: 1px solid #fff;
 		}
 
+		.card .users {
+			background: #53a2d4;
+			overflow-x: auto;
+			white-space: nowrap;
+			min-height: 54px;
+		}
+
+		.card .user-avatar {
+			margin-top: 10px;
+			width: 36px;
+			height: 36px;
+			border-radius: 50%;
+			margin-left: 7px;
+			display: inline-block;
+		}
+
 	`,
 
 	tpl: `
 
-		<div class="team">
+		<div class="card">
 			<div ui="headingEl" class="heading">
 				<div class="avatar-wrapper" ui="headingIconEl"></div>
 				<div style="flex-grow: 1; text-align: center">
@@ -139,6 +153,7 @@ mini.define('Team', {
 				</div>
 				<div style="min-width: 46px"></div>
 			</div>
+			<div ui="usersEl" class="users"></div>
 			<div ui="tabsEl" class="team-tabs"></div>
 			<div ui="contentEl" class="content"></div>
 		</div>
@@ -155,19 +170,40 @@ mini.define('Team', {
 		return `<div class="team-avatar">${name[0]}</div>`;
 	},
 
+	userTpl: function(user) {
+		return `<img class="user-avatar" src="https://samepage.io/api/app/rest/userpicture/user-${user.guid}-large.png"/>`
+	},
+
 	init: function(config) {
 
+		this.mainCard = config.mainCard;
 		this.el = mini.createElement(this.tpl, this);
-		this._preloadImages(config.org ? 'org' : 'team', config.content);
+		this._preloadImages(config.type, config.content);
+		this.users = config.users || [];
 
-		config.tabs.forEach(function(tabName) {
-			var tab = {
-				name: tabName
-			};
-			tab.el = mini.createElement(this.tabTpl(images[tabName]), null, this.tabsEl);
-			mini.addListener(tab.el, 'touchend', function() {
-				this._onSelectTab(tab);
-			}, this);
+		if (config.tabs) {
+			config.tabs.forEach(function(tabName) {
+				var tab = {
+					name: tabName
+				};
+				tab.el = mini.createElement(this.tabTpl(images[tabName]), null, this.tabsEl);
+				mini.addListener(tab.el, 'touchend', function() {
+					this._onSelectTab(tab);
+				}, this);
+				if (config.selectTab && config.selectTab === tabName) {
+					this._onSelectTab(tab);
+				}
+			}.bind(this));
+		}
+		else {
+			mini.css(this.tabsEl, {display: 'none'});
+		}
+
+		if (this.users.length === 0) {
+			mini.css(this.usersEl, {display: 'none'});
+		}
+		this.users.forEach(function(user) {
+			mini.createElement(this.userTpl(user), null, this.usersEl);
 		}.bind(this));
 
 		mini.addListener(this.el, {
@@ -176,7 +212,8 @@ mini.define('Team', {
 			},
 			touchmove: function(event) {
 				this.touchEnd = event.touches[0];
-				if (this.asCard) {
+
+				if (this.asCard && event.target !== this.usersEl && event.target.parentElement !== this.usersEl) {
 					event.stopPropagation();
 					event.preventDefault();
 				}
@@ -197,9 +234,6 @@ mini.define('Team', {
 			},
 			scope: this
 		});
-		mini.addListener(this.contentEl, 'touchend', function() {
-			this.fireEvent('contentClick');
-		}, this);
 
 		if (config.icon) {
 			mini.html(this.headingIconEl,  config.icon);
@@ -208,15 +242,17 @@ mini.define('Team', {
 			mini.html(this.headingIconEl,  this.teamAvatarTpl(config.title));
 		}
 
-		this._setHeading(config.title, config.subtitle);
+		this._setTitle(config.title);
 
-		if (config.org) {
-			mini.addClass(this.el, 'org');
-			this._setContent('Inbox');
-		}
-		else {
-			mini.addClass(this.el, 'teamx');
+		mini.addClass(this.el, config.type);
+
+		if (config.subtitle) {
+			this._setSubtitle(config.subtitle);
 			this._setContent('Page');
+		}
+
+		if (config.selectContent) {
+			this._setContent(config.selectContent);
 		}
 	},
 
@@ -226,20 +262,42 @@ mini.define('Team', {
 
 	showAsCard: function(asCard) {
 		var
-			scale = 0.95 - this.order / 50;
+			scale = .95,
+			rotation = 0;
+
 		this.asCard = asCard;
 		if (asCard) {
 			mini.addClass(this.el, 'slide-in');
-			mini.css(this.el, {transform: `matrix(${scale}, 0, 0, ${scale}, 0, 0)`});
-			mini.css(this.el, {
-			//	left: `${this.order * 5}px`,
-				top: `calc(60% - ${this.order * 110}px`
-			});
+			//mini.css(this.el, {matrix3d: `matrix(${scale}, 0, 0, ${scale}, 0, 0)`});
+			//matrix3d(a1, b1, c1, d1, a2, b2, c2, d2, a3, b3, c3, d3, a4, b4, c4, d4)
+			if (this.mainCard) {
+				mini.css(this.el, {
+					transform: `scale(${scale}, ${scale}) rotateX(${rotation}deg)`,
+					top: `calc(100% - 220px)`
+				});
+			}
+			else {
+				scale -= (this.order)/50;
+				mini.css(this.el, {
+					transform: `scale(${scale}, ${scale}) rotateX(${rotation}deg)`,
+					top: `calc(60% - ${this.order * 100}px`
+				});
+			}
 		}
 		else {
 			mini.removeClass(this.el, 'slide-in');
-			mini.css(this.el, {transform: 'matrix(1, 0, 0, 1, 0, 0)'});
-			mini.css(this.el, {top: 0});
+			mini.css(this.el, {transform: `scale(1, 1) rotateX(0deg)`});
+			if (this.mainCard && this.order !== 0) {
+				mini.css(this.el, {top: '100%'});
+			}
+			else {
+				if (this.order === 0) {
+					mini.css(this.el, {top: '0'});
+				}
+				else {
+					mini.css(this.el, {top: `${this.order * 10}px`});
+				}
+			}
 		}
 	},
 
@@ -262,12 +320,16 @@ mini.define('Team', {
 		this.selectedTab = tab;
 		this._setContent(tab.name);
 		mini.addClass(tab.el, 'selected');
-		mini.html(this.subHeadingTitleEl, tab.name);
+		this._setSubtitle(tab.name, true);
 	},
 
-	_setHeading: function(titleText, subtitleText) {
-		mini.html(this.headingTitleEl, titleText);
-		mini.html(this.subHeadingTitleEl, subtitleText);
+	_setTitle: function(text) {
+		mini.html(this.headingTitleEl, text);
+	},
+
+	_setSubtitle: function(text, bold) {
+		mini.html(this.subHeadingTitleEl, text);
+		mini.css(this.subHeadingTitleEl, {'font-weight' : bold ? 'normal' : 'normal'});
 	},
 
 	_setContent: function(tabName) {

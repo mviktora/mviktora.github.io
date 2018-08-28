@@ -2,8 +2,6 @@
 
 mini.define('Application', {
 
-	orgImages: ['Tasks', 'Calendar', 'Inbox', 'Teams', 'Search', 'Settings'],
-
 	orgUserNames: ['Martin', 'Scott', 'Jan Je', 'Markéta', 'Jiří Praus',
 		'Martin Hošna', 'Pořádek', 'Tracy', 'Matt', 'Nohavec', 'Zdeněk'
 	],
@@ -24,30 +22,42 @@ mini.define('Application', {
 	`,
 
 	cardsDef: [{
+			type: 'org',
+			mainCard: true,
 			title: 'Samepage Labs',
-			subtitle: 'Inbox',
 			org: true,
 			tabs: ['Inbox', 'Teams', 'Tasks', 'Calendar', 'Search'],
 			content: ['Inbox', 'Teams', 'Calendar', 'Tasks', 'Search'],
-			icon: `<img style="width: 34px;height:34px;border-radius: 50%;backgrond:#fff;" src="img/logo.png">`
+			icon: `<img style="width: 34px;height:34px;border-radius: 50%;backgrond:#fff;" src="img/logo.png">`,
+			selectTab: 'Inbox'
 		},
 		{
+			type: 'team',
 			title: 'Customer Support Team',
 			tabs: ['Chat', 'Pages', 'Tasks', 'Calendar', 'Files'],
 			content: ['Pages', 'Chat', 'Tasks', 'Calendar', 'Files', 'Page', 'Settings'],
 			subtitle: "Call didn't stop ringing after answering"
 		},
 		{
+			type: 'team',
 			title: 'Everyone',
 			tabs: ['Chat', 'Pages', 'Tasks', 'Calendar', 'Files'],
 			content: ['Pages', 'Chat', 'Tasks', 'Calendar', 'Files', 'Page', 'Settings'],
-			subtitle: "Call didn't stop ringing after answering"
+			selectTab: 'Chat'
 		},
 		{
+			type: 'user',
+			title: 'Jan Jezek',
+			content: ['Jezek'],
+			icon: `<img style="width: 34px;height:34px;border-radius: 50%;backgrond:#fff;border: 1px solid #f5f5f5" src="https://samepage.io/api/app/rest/userpicture/user-fc5b5cc5a3a667139f21fe6bd596c9380ee2b017-large.png">`,
+			selectContent: 'Jezek'
+		},
+		{
+			type: 'team',
 			title: 'BUGS',
 			tabs: ['Chat', 'Pages', 'Tasks', 'Calendar', 'Files'],
 			content: ['Pages', 'Chat', 'Tasks', 'Calendar', 'Files', 'Page', 'Settings'],
-			subtitle: "Call didn't stop ringing after answering"
+			selectTab: 'Tasks'
 		}
 	],
 
@@ -59,6 +69,8 @@ mini.define('Application', {
 		this.lastScrollTop = 0;
 		this.cards = [];
 
+		this.cardsDef[0].users = this.getUsers(this.orgUserNames);
+
 		this.el = mini.createElement(this.tpl, this, 'app-frame');
 
 		this.cardsDef.forEach(function(cardDef) {
@@ -67,7 +79,7 @@ mini.define('Application', {
 			this.cards.push(card);
 			mini.addListener(card, {
 				select: function(event) {
-					this.setCardsOrder(card);
+					this._setTopCard(card);
 					this.setNavMode(false);
 				},
 				scope: this
@@ -100,28 +112,42 @@ mini.define('Application', {
 
 		this.el.appendChild(this.bottomBar.getEl());
 
-		this.setCardsOrder(this.cards[1]);
+		this._setTopCard(this.cards[1]);
 	},
 
-	setCardsOrder: function(topCard) {
-		var i;
+	_setTopCard: function(topCard) {
 		this.cards.splice(this.cards.indexOf(topCard), 1);
-		this.cards.unshift(topCard);
+		this.cards.unshift(topCard)
+	},
+
+	_setCardsOrder: function(cardMode) {
+		var i,
+			order = cardMode ? 1 : 0;
+
 		for (i = 0; i < this.cards.length; i++) {
-			this.cards[i].setOrder(i);
+			if (cardMode && this.cards[i].mainCard) {
+				this.cards[i].setOrder(0);
+			}
+			else {
+				this.cards[i].setOrder(order++);
+			}
 		}
 	},
 
-	setNavMode: function(navMode) {
+	setNavMode: function(cardMode) {
 		var i;
-		if (navMode) {
+
+		if (cardMode) {
 			this.bottomBar.hide();
+			mini.css(this.el, {perspective: '1600px'});
 		}
 		else {
 			this.bottomBar.show();
+			mini.css(this.el, {perspective: '0px'});
 		}
+		this._setCardsOrder(cardMode);
 		for (i = 0; i < this.cards.length; i++) {
-			this.cards[i].showAsCard(navMode);
+			this.cards[i].showAsCard(cardMode);
 		}
 	},
 
@@ -136,25 +162,6 @@ mini.define('Application', {
 	},
 
 	navigateTo: function(section, title) {
-		this.history.push({
-			section: section,
-			title: title
-		});
-		this.setBackButtonState();
-		this.setMoreButtonState(section, title);
-
-		if (section === 'org') {
-			this.setHeading('Samepage Labs', title, this.smallSpLogo);
-			this.setContent('org', title);
-		}
-		else if (section === 'team'){
-			this.setHeading('Customer Support Team', title, this.teamAvatarTpl(title));
-			this.setContent('team', title);
-		}
-		else if (section === 'user') {
-			this.setHeading('Samepage labs', title, this.smallSpLogo);
-			this.setContent('user', 'Chat');
-		}
 	},
 
 	setBackButtonState: function() {
@@ -168,12 +175,6 @@ mini.define('Application', {
 		else {
 			this.bottomBar.enableMoreButton(true);
 		}
-	},
-
-	setScrollPos: function() {
-		var
-			x = $('#main-section').height() - $('#app-frame').height() + 120;
-		$('#overlay')[0].scrollTop = x;
 	},
 
 	getUsers: function(userNames) {

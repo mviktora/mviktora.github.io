@@ -188,7 +188,6 @@ mini.define('Navigation', {
 		]);
 
 		this.addListener(this.el, 'touchend', function(event) {
-			console.log(event.target)
 			if (event.target === this.el) {
 				this.hide();
 				event.preventDefault();
