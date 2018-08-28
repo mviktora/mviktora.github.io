@@ -63,7 +63,7 @@ mini.define('BottomBar', {
 			event.preventDefault();
 		}, this);
 
-		this.addListener(this.navButtonEl, 'touchend', function(event) {
+		this.addListener(this.navButtonEl, 'click', function(event) {
 			this.fireEvent('navButton', {});
 		}, this);
 

@@ -20,29 +20,6 @@ body, div {
 	-webkit-overflow-scrolling: touch;
 }
 
-#tasks-border, #check, #inbox-icon, #calendar-border, #chat-border, #dots {
-	fill: #999;
-	stroke: none;
-}
-
-#pages-icon path, #teams-icon path, #file-icon, #search-icon path {
-	fill: transparent;
-	stroke: #999;
-}
-
-#page-fill, #back-page-fill, #corner-fill {
-	fill: none;
-}
-
-#lines {
-	fill: #999;
-}
-
-#page-border, #back-page-border, #corner-border {
-	fill: none;
-	stroke: #999;
-}
-
 #back-page-fill, #back-page-border{
 	stroke: none;
 }
@@ -51,11 +28,7 @@ body, div {
 	fill: #999;
 }
 
-#tasks-fill {
+.tab-icon path {
 	fill: none;
-}
-
-#tasks-border, #check, #inbox-icon, #calendar-border, #chat-border, #dots {
-	fill: #999;
-	stroke: none;
+	stroke: red;
 }

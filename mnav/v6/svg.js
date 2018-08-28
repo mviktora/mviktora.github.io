@@ -1,122 +1,96 @@
+var colors = {
+	green: '#65ba4c',
+	blue: '#55A8DD'
+};
+
 var images = {
 
 Tasks: `
-<svg id="tasks" xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26">
-	<path id="tasks-fill" d="M22,25H5c-1.7,0-3-1.4-3-3V5c0-1.7,1.3-3,3-3h17c1.6,0,3,1.3,3,3v17C25,23.6,23.6,25,22,25z"/>
-	<path id="tasks-border" d="M22,2H5C3.3,2,2,3.3,2,5v17c0,1.6,1.3,3,3,3h17c1.6,0,3-1.4,3-3V5C25,3.3,23.6,2,22,2z M24,22 c0,1.1-0.9,2-2,2H5c-1.1,0-2-0.9-2-2V5c0-1.1,0.9-2,2-2h17c1.1,0,2,0.9,2,2V22z"/>
-	<path id="check" d="M20.7,8.8c-0.4-0.4-1-0.4-1.4,0l-7.8,7.8l-2.8-2.8c-0.4-0.4-1-0.4-1.4,0s-0.4,1,0,1.4l3.5,3.5 c0.4,0.4,1,0.4,1.4,0l8.5-8.5C21.1,9.8,21.1,9.2,20.7,8.8z"/>
+<svg version="1.1" class="tab-icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0" y="0" width="26" height="26" viewBox="0, 0, 26, 26">
+  <g id="lines">
+    <path d="M6.265,3 L19.735,3 C21.538,3 23,4.462 23,6.265 L23,19.735 C23,21.538 21.538,23 19.735,23 L6.265,23 C4.462,23 3,21.538 3,19.735 L3,6.265 C3,4.462 4.462,3 6.265,3 z" fill-opacity="0" stroke="#000000" stroke-width="1"/>
+    <path d="M7.541,13.831 L12.695,17.154 L18.46,8.134" fill-opacity="0" stroke="#000000" stroke-width="1"/>
+  </g>
 </svg>
 
 `,
 
 Inbox: `
-<svg id="inbox" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
-	<path id="inbox-icon" d="M29.9,13.6l-3.4-6.8c-0.4-0.7-1.1-1.2-1.9-1.2H7.3c-0.8,0-1.5,0.5-1.9,1.2l-3.4,6.8C2,13.7,2,13.9,2,14l0,0 l0,0l0,0v9.1c0,1.8,1.5,3.3,3.3,3.3h21.4c1.8,0,3.3-1.5,3.3-3.3V14l0,0l0,0l0,0C30,13.9,29.9,13.7,29.9,13.6z M7.1,7.6 c0.1-0.1,0.2-0.2,0.3-0.2h17.2c0.1,0,0.2,0.1,0.3,0.2l2.7,5.5h-6c-0.4,0-0.8,0.3-0.9,0.7c0,0.2-0.8,4-4.7,4s-4.7-3.8-4.7-4 c-0.1-0.4-0.5-0.7-0.9-0.7H4.4L7.1,7.6z M28.2,23.1c0,0.8-0.7,1.5-1.5,1.5H5.3c-0.8,0-1.5-0.7-1.5-1.5v-8.2h5.9 c0.6,1.9,2.5,4.7,6.3,4.7s5.6-2.7,6.3-4.7h5.9L28.2,23.1L28.2,23.1z"/>
+<svg class="tab-icon" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0" y="0" width="26" height="26" viewBox="0, 0, 26, 26">
+  <g id="lines">
+    <path d="M3,13.953 L9.371,13.953 C9.371,13.953 10.154,17.922 12.704,17.922 C15.842,17.922 16.43,13.953 16.43,13.953 L23,13.953 L23,22.172 L3,22.172 L3,13.953 z" fill-opacity="0" stroke="#000000" stroke-width="1"/>
+    <path d="M3.062,14.132 L7,3 L18,3 L23.062,14.203" fill-opacity="0" stroke="#000000" stroke-width="1"/>
+  </g>
 </svg>
 
 `,
 
 Teams: `
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg version="1.1" id="teams" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 width="32px" height="32px" viewBox="0 0 32 32" enable-background="new 0 0 32 32" xml:space="preserve">
-<g id="teams-icon">
-	<path fill="#231F20" d="M23.639,18.275c2.955,0,5.361,2.398,5.361,5.359C29,26.597,26.594,29,23.639,29
-		c-2.965,0-5.367-2.403-5.367-5.365C18.271,20.674,20.674,18.275,23.639,18.275z"/>
-	<path fill="#231F20" d="M13.729,23.635c0,2.962-2.402,5.365-5.361,5.365C5.401,29,3,26.597,3,23.635
-		c0-2.961,2.401-5.359,5.367-5.359C11.326,18.275,13.729,20.674,13.729,23.635z"/>
-	<path fill="#231F20" d="M8.367,13.727C5.401,13.727,3,11.325,3,8.363S5.401,3,8.367,3c2.959,0,5.361,2.401,5.361,5.363
-		S11.326,13.727,8.367,13.727z"/>
-	<path fill="#231F20" d="M18.271,8.363C18.271,5.397,20.671,3,23.639,3C26.594,3,29,5.397,29,8.363c0,2.962-2.406,5.363-5.361,5.363
-		C20.671,13.727,18.271,11.325,18.271,8.363z"/>
-</g>
+<svg version="1.1" class="tab-icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0" y="0" width="26" height="26" viewBox="0, 0, 26, 26">
+  <g id="lines">
+    <path d="M6.606,11.324 C4.148,11.324 2.155,9.359 2.155,6.935 C2.155,4.512 4.148,2.547 6.606,2.547 C9.064,2.547 11.057,4.512 11.057,6.935 C11.057,9.359 9.064,11.324 6.606,11.324 z" fill-opacity="0" stroke="#000000" stroke-width="1"/>
+    <path d="M18.606,11.324 C16.148,11.324 14.155,9.359 14.155,6.935 C14.155,4.512 16.148,2.547 18.606,2.547 C21.064,2.547 23.057,4.512 23.057,6.935 C23.057,9.359 21.064,11.324 18.606,11.324 z" fill-opacity="0" stroke="#000000" stroke-width="1"/>
+    <path d="M6.606,23.324 C4.148,23.324 2.155,21.359 2.155,18.935 C2.155,16.512 4.148,14.547 6.606,14.547 C9.064,14.547 11.057,16.512 11.057,18.935 C11.057,21.359 9.064,23.324 6.606,23.324 z" fill-opacity="0" stroke="#000000" stroke-width="1"/>
+    <path d="M18.606,23.324 C16.148,23.324 14.155,21.359 14.155,18.935 C14.155,16.512 16.148,14.547 18.606,14.547 C21.064,14.547 23.057,16.512 23.057,18.935 C23.057,21.359 21.064,23.324 18.606,23.324 z" fill-opacity="0" stroke="#000000" stroke-width="1"/>
+  </g>
 </svg>
 
 `,
 
 Calendar: `
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 21.0.2, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg version="1.1" id="calendar" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 width="26px" height="26px" viewBox="0 0 26 26" style="enable-background:new 0 0 26 26;" xml:space="preserve">
-<g id="calendar-border" fill="#000000">
-	<path d="M21,2H4.9C3.2,2,2,3.3,2,5v4v1v12c0,1.6,1.2,3,2.9,3h16.2c1.5,0,2.9-1.4,2.9-3V10V9V5
-		C23.9,3.3,22.6,2,21,2z M23,22c0,1.1-0.9,2-1.9,2H4.9C3.8,24,3,23.1,3,22V10h20V22z M3,9V5c0-1.1,0.9-2,1.9-2h16.2
-		C22.2,3,23,3.9,23,5v4H3z"/>
-	<rect x="8.8" y="5" width="8.5" height="2"/>
-</g>
-<g id="calendar-filled" fill="transparent">
-	<path d="M2,22c0,1.7,1.3,3,3,3h16c1.7,0,3-1.3,3-3V10H2V22z"/>
-	<path d="M21,2H5C3.3,2,2,3.3,2,5v4h22V5C24,3.3,22.7,2,21,2z M17.2,7H8.8V5h8.5V7z"/>
-</g>
-</svg>
-
-`,
-
-Search: `
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0" y="0" width="32" height="32" viewBox="0, 0, 32, 32">
-  <g id="search-icon">
-    <path d="M19.399,21.879 C14.613,21.879 10.734,18.001 10.734,13.215 C10.734,8.429 14.613,4.551 19.399,4.551 C24.184,4.551 28.063,8.429 28.063,13.215 C28.063,18.001 24.184,21.879 19.399,21.879 z" fill-opacity="0" stroke="#000000" stroke-width="1"/>
-    <g>
-      <path d="M4.116,27.6 L13.273,18.444" fill="#000000"/>
-      <path d="M4.616,28.1 L13.773,18.944" fill-opacity="0" stroke="#000000" stroke-width="1"/>
-    </g>
+<svg version="1.1" class="tab-icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0" y="0" width="26" height="26" viewBox="0, 0, 26, 26">
+  <g id="lines">
+    <path d="M6.265,3 L19.735,3 C21.538,3 23,4.462 23,6.265 L23,19.735 C23,21.538 21.538,23 19.735,23 L6.265,23 C4.462,23 3,21.538 3,19.735 L3,6.265 C3,4.462 4.462,3 6.265,3 z" fill-opacity="0" stroke="#000000" stroke-width="1"/>
+    <path d="M3,9 L23,9" fill-opacity="0" stroke="#000000" stroke-width="1"/>
+    <path d="M7,6 L19,6" fill-opacity="0" stroke="#000000" stroke-width="1"/>
   </g>
 </svg>
+`,
 
+
+Search: `
+<svg version="1.1" class="tab-icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0" y="0" width="26" height="26" viewBox="0, 0, 26, 26">
+  <g id="lines">
+    <path d="M16.217,17.609 C11.972,17.609 8.53,14.168 8.53,9.922 C8.53,5.676 11.972,2.234 16.217,2.234 C20.463,2.234 23.905,5.676 23.905,9.922 C23.905,14.168 20.463,17.609 16.217,17.609 z" fill-opacity="0" stroke="#000000" stroke-width="1"/>
+    <path d="M11.092,15.734 L3.217,24.422" fill-opacity="0" stroke="#000000" stroke-width="1"/>
+  </g>
+</svg>
 
 `,
 
 Pages: `
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 19.2.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg version="1.1" id="pages" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 width="26px" height="26px" viewBox="0 0 26 26" style="enable-background:new 0 0 26 26;" xml:space="preserve">
-<path id="back-page-border" d="M6,26h11c1.7,0,3-1.3,3-3V10l-7-7H6C4.3,3,3,4.3,3,6v17C3,24.7,4.3,26,6,26z"
-	/>
-<path id="back-page-fill" d="M6,25h11c1.1,0,2-0.9,2-2V9c0,0,0,0,0,0l-5-5c0,0,0,0,0,0H6C4.9,4,4,4.9,4,6v17
-	C4,24.1,4.9,25,6,25z"/>
-<path id="page-border" d="M9,23h11c1.7,0,3-1.3,3-3V7l-7-7H9C7.3,0,6,1.3,6,3v17C6,21.7,7.3,23,9,23z"/>
-<path id="page-fill" d="M9,22h11c1.1,0,2-0.9,2-2V6c0,0,0,0,0,0l-5-5c0,0,0,0,0,0H9C7.9,1,7,1.9,7,3v17
-	C7,21.1,7.9,22,9,22z"/>
-<path id="corner-border" d="M17,0h-1h0v4c0,1.7,1.3,3,3,3h4V6v0L17,0z"/>
-<path id="corner-fill" d="M17,1.5V4c0,1.1,0.9,2,2,2h2.5L17,1.5z"/>
-<g id="lines">
-	<rect x="10" y="10" width="9" height="1"/>
-	<rect x="10" y="13" width="9" height="1"/>
-	<rect x="10" y="16" width="9" height="1"/>
-</g>
+<svg version="1.1" class="tab-icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0" y="0" width="26" height="26" viewBox="0, 0, 26, 26">
+  <g id="Layer_1"/>
+  <g id="lines">
+    <path d="M6.842,2.297 L18.905,2.297 C20.562,2.297 21.905,3.781 21.905,5.612 L21.905,20.045 C21.905,21.875 20.562,23.359 18.905,23.359 L6.842,23.359 C5.185,23.359 3.842,21.875 3.842,20.045 L3.842,5.612 C3.842,3.781 5.185,2.297 6.842,2.297 z" fill-opacity="0" stroke="#000000" stroke-width="1"/>
+    <path d="M7.967,8.797 L17.342,8.797" fill-opacity="0" stroke="#000000" stroke-width="1"/>
+    <path d="M7.967,12.797 L17.342,12.797" fill-opacity="0" stroke="#000000" stroke-width="1"/>
+    <path d="M7.967,16.797 L17.342,16.797" fill-opacity="0" stroke="#000000" stroke-width="1"/>
+  </g>
 </svg>
+
 `,
 
 Chat: `
-<?xml version="1.0" encoding="UTF-8"?>
-<svg version="1.1" id="chat" x="0" y="0" width="26" height="26" viewBox="0, 0, 26, 26">
-  <g id="Layer_1">
-    <path id="chat-border" d="M22,3 C23.7,3 25,4.3 25,6 L25,17 C25,18.6 23.7,20 22,20 L12,20 L8,24 L6,20 L5,20 C3.3,20 2,18.6 2,17 L2,6 C2,4.3 3.3,3 5,3 L22,3 z M22,4 L5,4 C3.9,4 3,4.9 3,6 L3,17 C3,18.1 3.9,19 5,19 L6.8,19 L8.3,22 L11.3,19 L22,19 C23.1,19 24,18.1 24,17 L24,6 C24,4.9 23.1,4 22,4 z" />
-  </g>
-  <g id="dots">
-    <path d="M9,11.5 C9,12.328 8.328,13 7.5,13 C6.672,13 6,12.328 6,11.5 C6,10.672 6.672,10 7.5,10 C8.328,10 9,10.672 9,11.5 z" />
-    <path d="M15,11.5 C15,12.328 14.328,13 13.5,13 C12.672,13 12,12.328 12,11.5 C12,10.672 12.672,10 13.5,10 C14.328,10 15,10.672 15,11.5 z" />
-    <path d="M21,11.5 C21,12.328 20.328,13 19.5,13 C18.672,13 18,12.328 18,11.5 C18,10.672 18.672,10 19.5,10 C20.328,10 21,10.672 21,11.5 z" />
+<svg version="1.1"  class="tab-icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0" y="0" width="26" height="26" viewBox="0, 0, 26, 26">
+  <g id="lines">
+    <path d="M6.114,4.359 L19.597,4.359 C21.458,4.359 22.967,5.868 22.967,7.73 L22.967,13.91 C22.967,15.771 21.458,17.28 19.597,17.28 L11.942,17.28 L9.204,22.547 L6.114,17.28 C4.252,17.28 2.743,15.771 2.743,13.91 L2.743,7.73 C2.743,5.868 4.252,4.359 6.114,4.359 z" fill-opacity="0" stroke="#000000" stroke-width="1"/>
+    <path d="M7.749,11.422 C7.386,11.422 7.092,11.128 7.092,10.766 C7.092,10.403 7.386,10.109 7.749,10.109 C8.111,10.109 8.405,10.403 8.405,10.766 C8.405,11.128 8.111,11.422 7.749,11.422 z" fill-opacity="0" stroke="#000000" stroke-width="1"/>
+    <path d="M12.749,11.422 C12.386,11.422 12.092,11.128 12.092,10.766 C12.092,10.403 12.386,10.109 12.749,10.109 C13.111,10.109 13.405,10.403 13.405,10.766 C13.405,11.128 13.111,11.422 12.749,11.422 z" fill-opacity="0" stroke="#000000" stroke-width="1"/>
+    <path d="M17.749,11.422 C17.386,11.422 17.092,11.128 17.092,10.766 C17.092,10.403 17.386,10.109 17.749,10.109 C18.111,10.109 18.405,10.403 18.405,10.766 C18.405,11.128 18.111,11.422 17.749,11.422 z" fill-opacity="0" stroke="#000000" stroke-width="1"/>
   </g>
 </svg>
+
 `,
 
 Files: `
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg version="1.1" id="file" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 width="32px" height="32px" viewBox="0 0 32 32" enable-background="new 0 0 32 32" xml:space="preserve">
-<path id="file-icon" d="M6.019,8.866v14.039c0,0,0,1.346,1.446,1.346c1.364,0,17.389,0,17.389,0s1.127-0.088,1.127-1.423
-	s0-10.916,0-10.916s0-1.048-1.276-1.048c-0.929,0-0.968,0-6.979,0c0,0-0.805,0.098-1.314-1.177
-	c-0.316-0.791-0.475-1.107-0.475-1.107S15.65,7.75,14.689,7.75c-0.86,0-7.613,0-7.613,0S6.019,7.739,6.019,8.866z"/>
+<svg version="1.1" class="tab-icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0" y="0" width="26" height="26" viewBox="0, 0, 26, 26">
+  <g id="lines">
+    <path d="M5,4.297 L11,4.297 C12.657,4.297 14,5.64 14,7.297 L14,7.984 C14,9.641 14.092,10.734 14.092,10.734 L2.062,10.797 C2.062,10.797 2,9.641 2,7.984 L2,7.297 C2,5.64 3.343,4.297 5,4.297 z" fill-opacity="0" stroke="#000000" stroke-width="1"/>
+    <path d="M2,10.734 C2,10.734 2,10.734 2,10.734 C12.916,10.734 17.201,10.839 20.165,10.734 C25.467,10.547 23.592,13.922 23.655,14.859 C23.971,19.599 23.5,19.484 23.5,19.484 C23.5,21.141 22.157,22.484 20.5,22.484 L5.125,22.484 C3.468,22.484 2.125,21.141 2.125,19.484 z" fill-opacity="0" stroke="#000000" stroke-width="1"/>
+  </g>
 </svg>
+
 `,
 
 back: `
