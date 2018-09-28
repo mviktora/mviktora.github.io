@@ -58,7 +58,14 @@ mini.define('Application', {
 			tabs: ['Chat', 'Pages', 'Tasks', 'Calendar', 'Files'],
 			content: ['Pages', 'Chat', 'Tasks', 'Calendar', 'Files', 'Page', 'Settings'],
 			selectTab: 'Tasks'
-		}
+		},
+		{
+			type: 'user',
+			title: 'Jiří Praus',
+			content: ['Jezek'],
+			icon: `<img style="width: 34px;height:34px;border-radius: 50%;backgrond:#fff;border: 1px solid #f5f5f5" src="https://samepage.io/api/app/rest/userpicture/user-90196167f3e0516a11f391a0f05def0c47e34be0-large.png">`,
+			selectContent: 'Jezek'
+		},
 	],
 
 	init: function(config) {
