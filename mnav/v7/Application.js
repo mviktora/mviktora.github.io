@@ -12,7 +12,7 @@ mini.define('Application', {
 
 		.app {
 			position: relative;width:100%;height:100%;overflow: hidden;
-			background: #6b6b6b;
+			background: #3E8EC4;
 			overflow: hidden;
 			-webkit-overflow-scrolling: touch;
 		}
@@ -25,6 +25,7 @@ mini.define('Application', {
 			bottom: -30px;
 			overflow: hidden;
 			transition: transform .2s ease-out;
+			box-shadow: 0 0 10px rgba(0,0,0,.3);
 		}
 
 		.bottom-bar-wrapper {
@@ -33,7 +34,7 @@ mini.define('Application', {
 			left: 0;
 			right: 0;
 			height: 52px;
-			border-top: 1px solid #ddd;
+			box-shadow: 0 0 10px rgba(0,0,0,.3);
 		}
 
 		.app.show-blur .blur {
@@ -51,9 +52,10 @@ mini.define('Application', {
 		}
 
 	`,
-
+//<img style="display:block; position: absolute;left:0;top:0;bottom:0;right:0;filter: blur(2px);" src="img/bg.png">
 	tpl: `
 		<div class="app">
+
 			<div ui="viewWrapperEl" class="view-wrapper"></div>
 			<div ui="bottomBarWrapperEl" class="bottom-bar-wrapper"></div>
 		</div>

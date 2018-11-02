@@ -7,6 +7,7 @@ mini.define('BottomBar', {
 	css: `
 		.bottom-bar {
 			background: #f5f5f5;
+			background: #3E8EC4;
 			position: absolute;
 			left: 0;
 			top: 0;
@@ -33,7 +34,15 @@ mini.define('BottomBar', {
 		}
 
 		.bottom-bar .back-button.disabled #back-icon {
-			fill: #ddd;
+			fill: #fff;
+		}
+
+		.bottom-bar .back-button {
+			display: none;
+		}
+
+		.bottom-bar .more-button {
+			display: none;
 		}
 
 	`,
@@ -44,7 +53,7 @@ mini.define('BottomBar', {
 			<div class="center">
 				<div ui="navButtonEl" class="team-buttom">${images.logo}</div>
 			</div>
-			<div ui="moreButtonEl" class="bar-button">${images.more}</div>
+			<div ui="moreButtonEl" class="bar-button more-button">${images.more}</div>
 		</div>
 	`,
 

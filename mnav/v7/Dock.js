@@ -9,13 +9,17 @@ mini.define('Dock', {
 			display: flex;
 			position: absolute;
 			flex-direction: column;
-			top: 67px;
-			width: 70px;
-			bottom: 79px;
+			top: 140px;
+			width: 67px;
+			bottom: 140px;
 			background: #4f9cd0;
+			xbackground-color: rgba(62, 142, 196, .8);
+			background-color: rgba(0,0,0, .2);
 			transition: transform .2s ease-out;
 			border-top-right-radius: 8px;
 			border-bottom-right-radius: 8px;
+			xborder-radius: 8px;
+			box-shadow: 0 0 10px rgba(0,0,0,.3);
 		}
 
 		.dock.left-position {
@@ -51,7 +55,7 @@ mini.define('Dock', {
 		}
 
 		.left-shift {
-			transform: scale(.74) translate(52px, -30px);
+			transform: scale(.74) translate(50px, -30px);
 			border-radius: 10px;
 		}
 		.right-shift {
