@@ -92,6 +92,13 @@ mini.define('View', {
       text-align: center;
     }
 
+    .view .team-avatar {
+      border: 1px solid #999;
+      border-radius: 3px;
+      width: 20px;
+      height: 20px;
+    }
+
 
 	`,
 
@@ -101,7 +108,7 @@ mini.define('View', {
         <div class="heading">
     			<div style="display: inline-block">
     				<div class="title">
-    					<div ui="headingIconEl"></div>
+    					<div ui="headingIconEl" class="team-avatar"></div>
     					<div ui="headingTitleEl"></div>
     				</div>
     			</div>
@@ -153,6 +160,7 @@ mini.define('View', {
     this.addListener(this.buttonsEl, 'touchend', function(event) {
       this.fireEvent('tab', {id: event.target.id});
       this.setContent('team', this.texts[event.target.id]);
+      this.setHeading('Customer Support Team', this.texts[event.target.id], 'a');
       this.showNavButton();
     }, this);
 
