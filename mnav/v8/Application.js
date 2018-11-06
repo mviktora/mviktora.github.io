@@ -55,10 +55,8 @@ mini.define('Application', {
 	`,
 //<img style="display:block; position: absolute;left:0;top:0;bottom:0;right:0;filter: blur(2px);" src="img/bg.png">
 	tpl: `
-		<div class="app">
-
+		<div ui="appEl" class="app">
 			<div ui="viewWrapperEl" class="view-wrapper"></div>
-
 		</div>
 	`,
 	//<div ui="blurEl" class="blur"></div>
@@ -104,6 +102,15 @@ mini.define('Application', {
 		mini.addListener(this.view, 'content', function(event) {
 			this.showDock(this.leftDock, false);
 		}, this);
+
+		mini.addListener(this.el, 'touchend', function(event) {
+			if (event.target === this.el) {
+				this.showDock(this.leftDock, false);
+				this.view.showNavButton();
+
+			}
+		}, this);
+
 
 		//this.bottomBar = new BottomBar({});
 		//this.bottomBarWrapperEl.appendChild(this.bottomBar.getEl());
@@ -158,10 +165,8 @@ mini.define('Application', {
 		if (show) {
 			this.opendedDock = dock;
 			this.opendedDock.show();
-			mini.addClass(this.el, 'show-blur');
 		}
 		else {
-			mini.removeClass(this.el, 'show-blur');
 			this.opendedDock.hide();
 			this.opendedDock = null;
 		}
