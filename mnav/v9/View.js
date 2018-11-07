@@ -141,6 +141,8 @@ mini.define('View', {
       margin: 10px;
       border-radius: 10px;
       padding: 13px;
+      margin-top: 20px;
+      margin-bottom: 25px;
 		}
 
     .view .users .label {
@@ -168,6 +170,7 @@ mini.define('View', {
       padding-top: 20px;
       color: #444;
       font-size: 18px;
+      margin-top: 20px
     }
 
     .view .team-info .team-name {
