@@ -173,14 +173,24 @@ mini.define('View', {
     .view .team-info .team-name {
       font-size: 20px;
       font-weight: bold;
-      margin-top: 4px;
+      margin-top: 7px;
     }
 
     .view .team-info .pill {
-      border-radius: 10px;
+      border-radius: 12px;
       background: #ddd;
       margin-right: 10px;
-      padding: 4px 7px;
+      padding: 4px 9px;
+    }
+
+    .view .team-tab svg {
+      width: 40px;
+      fill: #999;
+    }
+
+    .view .team-tab svg {
+      width: 40px;
+      fill: #999;
     }
 
 	`,
@@ -209,13 +219,15 @@ mini.define('View', {
           <div style="display: flex;padding-top: 13px;">
             <div class="pill">Open team</div>
             <div class="pill">34 subteams</div>
+            <div style="flex-grow:1"></div>
+            <div class="pill">12</div>
           </div>
         </div>
 
         <div style="flex-grow: 1"></div>
 
         <div class="users">
-          <div class="label">Team members</div>
+          <div class="label">Members</div>
           <div style="width: 100%;overflow:auto">
             <div ui="usersEl">
             </div>
