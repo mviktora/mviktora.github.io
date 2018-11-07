@@ -38,20 +38,6 @@ mini.define('Application', {
 			box-shadow: 0 0 10px rgba(0,0,0,.3);
 		}
 
-		.app.show-blur .blur {
-			xbackground-color: rgba(0,0,0,.3);
-		}
-
-		.app .blur {
-			position: absolute;
-			top: 0;
-			left: 0;
-			right: 0;
-			bottom: 52px;
-			transition: background-color .2s;
-			background-color: transparent;
-		}
-
 	`,
 //<img style="display:block; position: absolute;left:0;top:0;bottom:0;right:0;filter: blur(2px);" src="img/bg.png">
 	tpl: `
@@ -64,14 +50,14 @@ mini.define('Application', {
 	leftDockButtons: [
 		//{id: 'Inbox', section: 'org', title: '', icon: `<img style="width:38px;border-radius:50%" src="img/logo.png"/>`},
 		{id: '-'},
-		{id: 'SharedPages', section: 'org', title: 'Shared Pages', icon: images.sharedPages},
-		{id: 'Bookmarks', section: 'org', title: 'Bookmarks', icon: images.bookmark},
-		{id: 'Calendar', section: 'org', title: 'Calendar', icon: images.calendar},
-		{id: 'Tasks', section: 'org', title: 'Tasks', icon: images.task},
-		{id: 'Chats', section: 'org', title: 'Chats', icon: images.chats},
-		{id: 'Teams', section: 'org', title: 'Teams', icon: images.teams},
-		{id: 'Inbox', section: 'org', title: 'Inbox', icon: images.inbox},
-		{id: 'Search', section: 'org', title: 'Search', icon: images.search},
+		{id: 'mySharedPages', section: 'org', title: 'Shared Pages', icon: images.sharedPages},
+		{id: 'myBookmarks', section: 'org', title: 'Bookmarks', icon: images.bookmark},
+		{id: 'myCalendar', section: 'org', title: 'Calendar', icon: images.calendar},
+		{id: 'myTasks', section: 'org', title: 'Tasks', icon: images.task},
+		{id: 'myChats', section: 'org', title: 'Chats', icon: images.chats},
+		{id: 'myTeams', section: 'org', title: 'Teams', icon: images.teams},
+		{id: 'myInbox', section: 'org', title: 'Inbox', icon: images.inbox},
+		{id: 'mySearch', section: 'org', title: 'Search', icon: images.search},
 	],
 
 	teamAvatarTpl: function(name) {
@@ -139,7 +125,7 @@ mini.define('Application', {
 		mini.addListener(this.leftDock, 'select', function(event) {
 			this.showDock(this.leftDock, false);
 			if (event.item) {
-				this.navigateTo(event.item.section, event.item.id, event.item.title);
+				this.navigateTo(event.item.id, event.item.title);
 			}
 		}, this);
 
@@ -154,7 +140,7 @@ mini.define('Application', {
 		// 	this.showDock(this.opendedDock, false);
 		// }, this);
 
-		this.navigateTo('team', 'Page', 'Page');
+		this.navigateTo('teamPage', 'Page');
 	},
 
 	showDock: function(dock, show) {
@@ -182,26 +168,20 @@ mini.define('Application', {
 		this.navigateTo(lastItem.section, lastItem.title);
 	},
 
-	navigateTo: function(section, id, title) {
+	navigateTo: function(id, title) {
 		this.history.push({
-			section: section,
 			title: title
 		});
-		this.setBackButtonState();
-		this.setMoreButtonState(section, title);
 
-		if (section === 'org') {
+		var section = id.substring(0, 2);
+
+		if (section === 'my') {
 			this.view.setHeading('Samepage Labs', title, this.smallSpLogo);
-			this.view.setContent('org', title);
 		}
-		else if (section === 'team'){
+		else {
 			this.view.setHeading('Customer Support Team', title, this.teamAvatarTpl(title));
-			this.view.setContent('team', title);
 		}
-		else if (section === 'user') {
-			this.view.setHeading('Samepage labs', title, this.smallSpLogo);
-			this.view.setContent('user', 'Chat');
-		}
+		this.view.setContent(id, title);
 		this.view.showNavButton();
 	},
 
@@ -217,15 +197,8 @@ mini.define('Application', {
 		else {
 			this.bottomBar.enableMoreButton(true);
 		}
-	},
-
-	getUsers: function(userNames) {
-		var
-			users = [];
-		userNames.forEach(function(userName) {
-			users.push(findUserByName(userName));
-		});
-		return users;
 	}
+
+
 
 });
