@@ -20,7 +20,7 @@ mini.define('Dock', {
 			text-align: center;
 			color: #fff;
 			width: 100%;
-			height: 60px;
+			height: 56px;
 			font-size: 12px;
 		}
 
@@ -33,8 +33,8 @@ mini.define('Dock', {
 		}
 
 		.dock-button svg {
-			width: 32px;
-			height: 32px;
+			width: 26px;
+			height: 26px;
 		}
 
 	`,

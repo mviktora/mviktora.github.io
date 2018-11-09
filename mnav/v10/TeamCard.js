@@ -36,11 +36,12 @@ mini.define('TeamCard', {
     color: #444;
     border: 1px solid rgba(255,255,255,.4);
   }
+
   .team-card .users {
     background: rgba(240,240,240,0.6);
     overflow-x: auto;
     white-space: nowrap;
-    padding: 10px;
+    padding: 6px 10px;
   }
 
   .team-card .users .label {
@@ -49,8 +50,8 @@ mini.define('TeamCard', {
   }
 
   .team-card .user-avatar {
-    width: 35px;
-    height: 35px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
     margin-left: 5px;
     display: inline-block;
