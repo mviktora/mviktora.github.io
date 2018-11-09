@@ -42,14 +42,6 @@ mini.define('Application', {
 			transition: transform 0.2s ease-out;
 		}
 
-		.app.overview .team-card-wrapper {
-			transform: scale(1);
-		}
-
-		.app.overview .view-wrapper {
-			transform: scale(0.48) translate(60px, 20px);
-		}
-
 		.team-card-wrapper {
 			position: absolute;
 			left: 90px;
@@ -70,6 +62,15 @@ mini.define('Application', {
 			left: 100px;
 			top: 22px;
 			color: #fff;
+		}
+
+
+		.app.overview .team-card-wrapper {
+			transform: scale(1);
+		}
+
+		.app.overview .view-wrapper {
+			transform: scale(0.48) translate(60px, 20px);
 		}
 
 	`,

@@ -19,10 +19,12 @@ mini.define('View', {
 			text-align: center;
 			background-color: #fff;
 			border-bottom: 1px solid #eee;
+			transition: opacity 0.2s ease-out;
+			background: #f5f5f5;
 		}
 
     .view .heading {
-      background: #f5f5f5;
+
     }
 
 		.view .heading .title {
@@ -59,6 +61,7 @@ mini.define('View', {
       height: 60px;
       display: flex;
       align-items: center;
+			transition: opacity 0.2s ease-out;
     }
 
     .view .team-nav-bar {
@@ -72,20 +75,12 @@ mini.define('View', {
       right: 0;
     }
 
-    .view.show-nav-buttons .team-nav-bar {
-      display: none;
-    }
-
     .view.show-nav-buttons .heading-wrapper {
-      display: none;
+      opacity: 0;
     }
 
     .view.show-nav-buttons .team-nav {
-      display: none;
-    }
-
-    .view.show-nav-buttons .heading {
-      display: none;
+      opacity: 0;
     }
 
     .view .info {
