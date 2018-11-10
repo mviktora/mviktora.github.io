@@ -12,7 +12,8 @@ mini.define('Dock', {
 			top: 0px;
 			width: 76px;
 			bottom: 0px;
-			background-color: #609345;
+			xbackground-color: #609345;
+			background-color: rgba(0,0,0,.4);
 			padding-bottom: 30px;
 		}
 

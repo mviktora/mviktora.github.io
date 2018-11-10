@@ -1,0 +1,57 @@
+<html>
+
+<head>
+
+<style>
+	body {
+		margin: 0;
+		padding: 0;
+	}
+	a {
+		display: block;
+		font-size: 20px;
+		padding: 10px;
+		text-decoration: none;
+		text-align: center;
+	}
+
+</style>
+
+<meta charset="UTF-8">
+
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name = "viewport" content = "user-scalable=no, width=device-width">
+	<meta name="apple-mobile-web-app-title" content="Prototype">
+	<meta name="apple-mobile-web-app-status-bar-style" content="default">
+	<link rel="apple-touch-icon" href="appicon.png">
+
+	<title>Samepage Prototype</title>
+
+</head>
+
+<body>
+	<div style="display: flex; flex-direction: column;height:80%">
+
+		<div style="flex-grow:1"></div>
+
+		<a href="v9">Version 9</a>
+		<a href="v10">Version 10</a>
+		<a href="v11">Version 11</a>
+		<a href="v12">Version 12</a>
+
+	</div>
+
+<script>
+	var eventHandler = function (event) {
+		if ( event.target.tagName.toLowerCase() === 'a'  ) {
+		  event.preventDefault();
+		  window.location = event.target.href;
+		}
+	}
+	window.addEventListener('click', eventHandler, false);
+
+</script>
+
+</body>
+
+</html>

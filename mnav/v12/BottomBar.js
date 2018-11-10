@@ -9,6 +9,8 @@ mini.define('BottomBar', {
 			display: flex;
 			align-items: center;
 			background: #609345;
+			background-image: url("img/bg.png");
+			background-color: rgba(0,0,0,.4);
 			height: 100%;
 		}
 	`,

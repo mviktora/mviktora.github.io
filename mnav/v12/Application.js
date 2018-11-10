@@ -12,10 +12,10 @@ mini.define('Application', {
 
 		.app {
 			position: relative;width:100%;height:100%;
-			background: #616161;
 			overflow: hidden;
 			-webkit-overflow-scrolling: touch;
 			-webkit-user-select: none;
+			background-image: url("img/bg.png");
 		}
 
 		.app .view-wrapper, .app .dock-wrapper {
@@ -26,6 +26,7 @@ mini.define('Application', {
 			bottom: 0px;
 			overflow: hidden;
 			transition: transform .2s ease-out;
+
 		}
 
 		.app .bottom-bar-wrapper {
@@ -52,7 +53,8 @@ mini.define('Application', {
 		}
 
 		.app .dock-wrapper {
-			background-color: #506b42;
+			xbackground-color: #506b42;
+			
 		}
 
 		.app .org-info {
