@@ -139,7 +139,7 @@ mini.define('TeamCard', {
           <div id="teamTasks" class="team-tab">Tasks</div>
          </div>
          <div class="tab-row">
-           <div id="teamCalendar" class="team-tab">Calendar</div>
+           <div id="teamCalendar" class="team-tab">Events</div>
            <div id="teamFiles" class="team-tab">Files</div>
            <div id="teamSettings" class="team-tab">Settings</div>
         </div>
@@ -183,11 +183,7 @@ mini.define('TeamCard', {
 
     this.addListener(this.el, 'touchend', function(event) {
       if (event.target.classList.contains("team-tab")) {
-				if (this.selectedTab) {
-					mini.removeClass(this.selectedTab, 'selected-tab');
-				}
-				this.selectedTab = event.target;
-				mini.addClass(this.selectedTab, 'selected-tab');
+				this.selectTab(event.target.id);
         this.fireEvent('tab', {
 					id: event.target.id,
 					title: this.texts[event.target.id]
@@ -206,6 +202,16 @@ mini.define('TeamCard', {
     return this.el;
   },
 
+	selectTab: function(tabId) {
+		if (this.selectedTab) {
+			mini.removeClass(this.selectedTab, 'selected-tab');
+		}
+		this.selectedTab = mini.get(tabId);
+		if (this.selectedTab) {
+			mini.addClass(this.selectedTab, 'selected-tab');
+		}
+	},
+
   getUsers: function(userNames) {
 		var
 			users = [];
@@ -214,7 +220,5 @@ mini.define('TeamCard', {
 		});
 		return users;
 	}
-
-
 
 });

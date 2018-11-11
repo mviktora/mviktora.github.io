@@ -54,7 +54,7 @@ mini.define('Application', {
 
 		.app .dock-wrapper {
 			xbackground-color: #506b42;
-			
+
 		}
 
 		.app .org-info {
@@ -147,6 +147,10 @@ mini.define('Application', {
 
 		mini.addListener(this.view, 'content', function(event) {
 			this.showDock(false);
+		}, this);
+
+		mini.addListener(this.view, 'tab', function(event) {
+			this.teamCard.selectTab(event.tabId);
 		}, this);
 
 		mini.addListener(this.el, 'touchend', function(event) {

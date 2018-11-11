@@ -2,7 +2,7 @@
 
 mini.define('View', {
 
-  events: ['content'],
+  events: ['content', 'tab'],
 
 	css: `
 		.view {
@@ -64,9 +64,7 @@ mini.define('View', {
 		.view .content {
 			white-space: nowrap;
 			transition: scroll .4s;
-			-webkit-overflow-scrolling: touch;
-	 scroll-behavior: smooth; // Added in from answer from Felix
-	 overflow-x: scroll;
+			-webkit-overflow-scrolling: normal;
 		}
 
 		.view .content .tab-content {
@@ -95,27 +93,66 @@ mini.define('View', {
     			<div ui="subHeadingTitleEl" class="sub-title"></div>
     		</div>
       </div>
-			<div ui="contentEl" class="content">
-				<div id="_teamPage" class="tab-content"><img src="img/views/teamPage.png"></div>
-				<div id="_teamChat" class="tab-content"><img src="img/views/teamChat.png"></div>
-				<div id="_teamPages" class="tab-content"><img src="img/views/teamPages.png"></div>
-				<div id="_teamCalendar" class="tab-content"><img src="img/views/teamCalendar.png"></div>
-				<div id="_teamTasks" class="tab-content"><img src="img/views/teamTasks.png"></div>
-				<div id="_teamFiles" class="tab-content"><img src="img/views/teamFiles.png"></div>
-      </div>
+			<div ui="contentEl" class="content"></div>
 
     </div>
-
-
 	`,
+
+	tabTpl: function(id) {
+		return `
+			<div class="tab-content"><img src="img/views/${id}.png"></div>
+		`;
+	},
+
+	tabsDef: [
+		'teamPage', 'teamChat', 'teamPages', 'teamTasks', 'teamCalendar', 'teamFiles'
+	],
 
 	init: function(config) {
 
 		this.el = mini.createElement(this.tpl, this);
 
+		this.tabsList = [];
+		this.tabsMap = {};
+
+		this.tabsDef.forEach(function(tab) {
+			var
+				el = mini.createElement(this.tabTpl(tab), null, this.contentEl);
+			this.tabsList.push({
+				id: tab,
+				el: el
+			});
+			this.tabsMap[tab] = el;
+		}.bind(this));
+
     this.addListener(this.contentEl, 'click', function(event) {
       this.fireEvent('content', {});
     }, this);
+
+		this.addListener(this.contentEl, 'touchstart', function(e) {
+			this.clientX = e.touches[0].clientX;
+			this.scrollX = this.contentEl.scrollLeft;
+			this.deltaX = null;
+			e.preventDefault();
+		}, this);
+
+		this.addListener(this.contentEl, 'touchmove', function(e) {
+			this.deltaX = e.touches[0].clientX - this.clientX;
+			e.preventDefault();
+			this.contentEl.scrollLeft = this.scrollX - 2 * this.deltaX;
+		}, this);
+
+		this.addListener(this.contentEl, 'touchend', function(e) {
+			var
+				index = Math.floor((this.contentEl.scrollLeft + this.contentEl.clientWidth / 2) / this.contentEl.clientWidth),
+				tab = this.tabsList[index];
+			e.preventDefault();
+			this.contentEl.scrollLeft = tab.el.offsetLeft;
+			this.fireEvent('tab', {tabId: tab.id});
+			if (!this.deltaX || Math.abs(this.deltaX) < 4) {
+				this.fireEvent('content');
+			}
+		}, this);
 
   },
 
@@ -131,12 +168,11 @@ mini.define('View', {
 
 	setContent: function(id, title) {
 		var
-			el = document.getElementById('_' + id);
+			el = this.tabsMap[id];
 
 		if (el) {
 			this.contentEl.scrollLeft = el.offsetLeft;
 		}
-		//this.infoEl.src = `img/views/${id}.png`
 	}
 
 });
