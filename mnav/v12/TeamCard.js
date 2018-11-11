@@ -110,6 +110,10 @@ mini.define('TeamCard', {
 
 	}
 
+	.team-card .tab-switcher .selected-dot {
+		background: #78ba56;
+	}
+
 	`,
 
 	 tpl:
@@ -147,18 +151,20 @@ mini.define('TeamCard', {
 
 			<div style="flex-grow: 1;background: #fff"></div>
 
-			<div class="tab-switcher">
+			<div ui="dotsEl" class="tab-switcher">
 				<div style="flex-grow: 1"></div>
-				<div class="dot"></div>
-				<div class="dot"></div>
-				<div class="dot"></div>
-				<div class="dot"></div>
-				<div class="dot"></div>
+				<div id="teamChatDot" class="dot"></div>
+				<div id="teamPagesDot" class="dot"></div>
+				<div id="teamTasksDot" class="dot"></div>
+				<div id="teamCalendarDot" class="dot"></div>
+				<div id="teamFilesDot" class="dot"></div>
 				<div style="flex-grow: 1"></div>
 			</div>
 
     </div>
   `,
+
+		tabs: ['teamChat', 'teamPages', 'teamTasks', 'teamCalendar', 'teamFiles'],
 
     orgUserNames: ['Martin', 'Scott', 'Jan Je', 'Markéta', 'Jiří Praus',
   		'Martin Hošna', 'Pořádek', 'Tracy', 'Matt', 'Nohavec', 'Zdeněk'
@@ -206,9 +212,19 @@ mini.define('TeamCard', {
 		if (this.selectedTab) {
 			mini.removeClass(this.selectedTab, 'selected-tab');
 		}
+		if (this.dotEl) {
+			mini.removeClass(this.dotEl, 'selected-dot');
+		}
 		this.selectedTab = mini.get(tabId);
 		if (this.selectedTab) {
 			mini.addClass(this.selectedTab, 'selected-tab');
+		}
+		var
+			index = this.tabs.indexOf(tabId);
+
+		this.dotEl = mini.get(tabId + 'Dot');
+		if (this.dotEl) {
+			mini.addClass(this.dotEl, 'selected-dot');
 		}
 	},
 
