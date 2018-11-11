@@ -173,6 +173,7 @@ mini.define('Application', {
 			]
 		});
 
+		this.teamCard.selectTab('teamPage');
 
 		this.navigateTo('teamPage', 'Page');
 	},

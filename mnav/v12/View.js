@@ -56,28 +56,28 @@ mini.define('View', {
 			left: 0;
 			width: 100%;
 			bottom: 0px;
-			overflow: auto;
-			-webkit-overflow-scrolling: touch;
+			overflow: hidden;
       background-color: #fff;
 		}
 
-		.view .content {
-			white-space: nowrap;
-			transition: scroll .4s;
-			-webkit-overflow-scrolling: normal;
-		}
-
 		.view .content .tab-content {
-			width: 100%;
+			width: 370px;
 	    height: 100%;
-	    display: inline-block;
-	    overflow: auto;
 		}
 
 		.view .content .tab-content img {
 			width: 100%;
 		}
 
+		.view .content .scroll-helper {
+			position: absolute;
+			left: 0;
+			top: 0;
+			height: 100%;
+			display: flex;
+	    overflow: hidden;
+			white-space: nowrap;
+		}
 
 	`,
 
@@ -93,7 +93,9 @@ mini.define('View', {
     			<div ui="subHeadingTitleEl" class="sub-title"></div>
     		</div>
       </div>
-			<div ui="contentEl" class="content"></div>
+			<div class="content">
+				<div ui="contentEl" class="scroll-helper"></div>
+			</div>
 
     </div>
 	`,
@@ -125,40 +127,48 @@ mini.define('View', {
 			this.tabsMap[tab] = el;
 		}.bind(this));
 
-    this.addListener(this.contentEl, 'click', function(event) {
-      this.fireEvent('content', {});
-    }, this);
+		this.addListener(this.contentEl, 'click', function(event) {
+			this.fireEvent('content', {});
+		}, this);
 
 		this.addListener(this.contentEl, 'touchstart', function(e) {
 			this.clientX = e.touches[0].clientX;
-			this.scrollX = this.contentEl.scrollLeft;
+			this.scrollX = this.contentEl.offsetLeft;
 			this.deltaX = null;
+			this.contentEl.style.transition = '';
 			e.preventDefault();
 		}, this);
 
 		this.addListener(this.contentEl, 'touchmove', function(e) {
 			this.deltaX = e.touches[0].clientX - this.clientX;
+			this.contentEl.style.left = this.scrollX + 2 * this.deltaX + 'px';
 			e.preventDefault();
-			this.contentEl.scrollLeft = this.scrollX - 2 * this.deltaX;
 		}, this);
 
 		this.addListener(this.contentEl, 'touchend', function(e) {
 			var
-				index = Math.floor((this.contentEl.scrollLeft + this.contentEl.clientWidth / 2) / this.contentEl.clientWidth),
-				tab = this.tabsList[index];
+				index = Math.floor((-this.contentEl.offsetLeft + 370 / 2) / 370);
+
+			if (index < 0) {
+				index = 0;
+			}
+			if (index >= this.tabsList.length) {
+				index = this.tabsList.length -1;
+			}
 			e.preventDefault();
-			this.contentEl.scrollLeft = tab.el.offsetLeft;
-			this.fireEvent('tab', {tabId: tab.id});
+			this.contentEl.style.transition = 'left 0.2s ease-out';
+			this.contentEl.style.left = - index * 370 + 'px';
+			this.fireEvent('tab', {tabId: this.tabsList[index].id});
 			if (!this.deltaX || Math.abs(this.deltaX) < 4) {
 				this.fireEvent('content');
 			}
 		}, this);
 
-  },
+	},
 
-  getEl: function() {
-    return this.el;
-  },
+	getEl: function() {
+		return this.el;
+	},
 
 	setHeading: function(heading, subHeading, iconHtml) {
 		mini.html(this.headingTitleEl, heading);
@@ -166,13 +176,11 @@ mini.define('View', {
 		//mini.html(this.headingIconEl, iconHtml);
 	},
 
-	setContent: function(id, title) {
+	setContent: function(id) {
 		var
-			el = this.tabsMap[id];
+			index = this.tabsDef.indexOf(id);
 
-		if (el) {
-			this.contentEl.scrollLeft = el.offsetLeft;
-		}
+		this.contentEl.style.left = - index * 370 + 'px';
 	}
 
 });

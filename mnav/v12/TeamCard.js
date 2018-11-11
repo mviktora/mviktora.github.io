@@ -43,7 +43,7 @@ mini.define('TeamCard', {
 
 	.team-card .tab-row > .team-tab.selected-tab {
 		font-weight: bold;
-		color: #78ba56;
+		color: #297dbd;
 	}
 
   .team-card .users {
@@ -111,7 +111,7 @@ mini.define('TeamCard', {
 	}
 
 	.team-card .tab-switcher .selected-dot {
-		background: #78ba56;
+		background: #297dbd;
 	}
 
 	`,
@@ -153,6 +153,7 @@ mini.define('TeamCard', {
 
 			<div ui="dotsEl" class="tab-switcher">
 				<div style="flex-grow: 1"></div>
+				<div id="teamPageDot" class="dot"></div>
 				<div id="teamChatDot" class="dot"></div>
 				<div id="teamPagesDot" class="dot"></div>
 				<div id="teamTasksDot" class="dot"></div>
@@ -197,11 +198,10 @@ mini.define('TeamCard', {
       }
     }, this);
 
-
     this.getUsers(this.orgUserNames).forEach(function(user) {
 			mini.createElement(this.userTpl(user), null, this.usersEl);
 		}.bind(this));
-
+;
   },
 
   getEl: function() {
@@ -219,8 +219,6 @@ mini.define('TeamCard', {
 		if (this.selectedTab) {
 			mini.addClass(this.selectedTab, 'selected-tab');
 		}
-		var
-			index = this.tabs.indexOf(tabId);
 
 		this.dotEl = mini.get(tabId + 'Dot');
 		if (this.dotEl) {
