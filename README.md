@@ -10,7 +10,9 @@ var a = 3;
 ## heading ##
 A paragraph
 
-*italic* with Markdown. You can even [link to Google!](http://google.com)
+*italic* with Markdown.
+
+You can even [link to Google!](http://google.com)
 
 First Header | Second Header
 ------------ | -------------
